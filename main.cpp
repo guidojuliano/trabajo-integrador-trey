@@ -1,4 +1,6 @@
 #include <iostream>
+#include "misfunciones.h"
+
 
 using namespace std;
 
