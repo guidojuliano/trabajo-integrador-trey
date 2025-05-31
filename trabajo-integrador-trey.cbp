@@ -33,6 +33,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="main.cpp" />
+		<Unit filename="misfunciones.cpp" />
 		<Unit filename="misfunciones.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

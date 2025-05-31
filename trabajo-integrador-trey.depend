@@ -1,13 +1,18 @@
 # depslib dependency file v1.0
-1748663862 source:c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\main.cpp
-	<iostream>
-	"misfunciones.h"
-
-1748663770 c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\misfunciones.h
-
-1748663826 source:c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\misfunciones.cpp
-	"misfunciones.h"
+1748709995 source:c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\main.cpp
 	<iostream>
 	<windows.h>
 	"misfunciones.h"
+	<cstdlib>
+	<ctime>
+
+1748713917 c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\misfunciones.h
+
+1748715926 source:c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\misfunciones.cpp
+	"misfunciones.h"
+	<iostream>
+	<windows.h>
+	<cstdlib>
+	<ctime>
+	<cstring>
 
