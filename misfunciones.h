@@ -1,0 +1,9 @@
+#ifndef MISFUNCIONES_H_INCLUDED
+#define MISFUNCIONES_H_INCLUDED
+
+
+
+void menuPrincipal();
+
+
+#endif // MISFUNCIONES_H_INCLUDED

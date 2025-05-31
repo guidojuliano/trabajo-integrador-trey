@@ -1,11 +1,17 @@
-#include <iostream>
-#include "misfunciones.h"
 
+#include <iostream>
 
 using namespace std;
 
+#include "misfunciones.h"
 int main()
-{
-    cout << "Hello world!" << endl;
+  {
+
+
+
+    menuPrincipal();
+
+
+
     return 0;
-}
+  }
