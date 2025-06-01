@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1748709995 source:c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\main.cpp
+1748811009 source:c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\main.cpp
 	<iostream>
 	<windows.h>
-	"misfunciones.h"
+	"game_logic.h"
 	<cstdlib>
 	<ctime>
 
@@ -34,4 +34,16 @@
 	<cstdlib>
 	<ctime>
 	<cstring>
+
+1748811009 source:c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\game_logic.cpp
+	"game_logic.h"
+	<iostream>
+	<windows.h>
+	<cstdlib>
+	<ctime>
+	<cstring>
+
+1748810951 c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\game_logic.h
+
+1748785526 source:c:\users\valen\desktop\tpi programacion 1\trabajo-integrador-trey\structs.cpp
 

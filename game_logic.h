@@ -2,10 +2,14 @@
 #define MISFUNCIONES_H_INCLUDED
 
 
-
-int tiradaDadoVertical();
-
 int lanzarDados(int cantDados);
+
+void menuCreditos();
+
+void confirmarSalir(char confirm, int& eleccion );
+
+void cartelDeError();
+
 
 
 #endif // MISFUNCIONES_H_INCLUDED
