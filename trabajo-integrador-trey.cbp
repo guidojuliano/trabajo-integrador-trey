@@ -32,11 +32,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="game_logic.cpp" />
+		<Unit filename="game_logic.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="misfunciones.cpp" />
-		<Unit filename="misfunciones.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="structs.cpp" />
+		<Unit filename="structs.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

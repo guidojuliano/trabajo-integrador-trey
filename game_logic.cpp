@@ -1,5 +1,5 @@
 
-#include "misfunciones.h"
+#include "game_logic.h"
 
 #include <iostream>
 #include <windows.h>

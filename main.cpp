@@ -2,7 +2,7 @@
 #include <iostream>
 #include <windows.h>
 
-#include "misfunciones.h"
+#include "game_logic.h"
 
 #include<cstdlib> // para numeros random
 #include <ctime>
@@ -14,7 +14,7 @@ int main(){
     srand(time(0));
     SetConsoleOutputCP(65001);
 
-    int eleccion;
+    int eleccion = -1;
 
     while(eleccion!=0){
 

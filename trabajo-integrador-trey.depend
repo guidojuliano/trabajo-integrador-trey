@@ -16,3 +16,22 @@
 	<ctime>
 	<cstring>
 
+1748744874 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\main.cpp
+	<iostream>
+	<windows.h>
+	"game_logic.h"
+	<cstdlib>
+	<ctime>
+
+1748742976 c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\game_logic.h
+
+1748742976 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\structs.cpp
+
+1748745334 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\game_logic.cpp
+	"game_logic.h"
+	<iostream>
+	<windows.h>
+	<cstdlib>
+	<ctime>
+	<cstring>
+
