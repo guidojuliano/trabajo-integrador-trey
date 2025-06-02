@@ -24,10 +24,10 @@ void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
         cout << "Antes de comenzar deben registrar sus nombres:\n\n";
 
         cout << "¿Nombre jugador 1? ";
-        getline(cin, nombre_temporal);
+        getline(cin >> ws, nombre_temporal);
         jugadores[0].nombre = nombre_temporal;
         cout << "¿Nombre jugador 2? ";
-        getline(cin, nombre_temporal);
+        getline(cin >> ws, nombre_temporal);
         jugadores[1].nombre = nombre_temporal;
 
         cout << "\nNombres registrados:\n";
@@ -36,6 +36,7 @@ void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
 
         cout << "\n¿Confirmar nombres? (S/N) ";
         cin >> confirmacion;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         confirmacion = toupper(confirmacion);
 
         if (confirmacion == 'S') {
