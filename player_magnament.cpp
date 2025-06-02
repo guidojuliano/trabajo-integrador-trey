@@ -24,7 +24,6 @@ void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
         cout << "Antes de comenzar deben registrar sus nombres:\n\n";
 
         cout << "¿Nombre jugador 1? ";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, nombre_temporal);
         jugadores[0].nombre = nombre_temporal;
         cout << "¿Nombre jugador 2? ";

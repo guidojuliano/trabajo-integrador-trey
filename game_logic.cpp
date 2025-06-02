@@ -1,16 +1,15 @@
 
 #include "game_logic.h"
-
+#include <vector>
 #include <iostream>
 #include <windows.h>
-using namespace std;
-
+#include <limits>
 #include<cstdlib> // para numeros random
 #include <ctime>
 #include <cstring>
+#include "player_magnament.h"
 
-
-
+using namespace std;
 
 void armarDadoRandom(char linea1[],char linea2[],char linea3[],char linea4[],char linea5[], int numero){
 
@@ -146,7 +145,178 @@ int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada
     return puntos_obtenidos_tirada;
 }
 
+void iniciarJuego(std::vector<Jugador>& jugadores) {
+    const int MAX_RONDAS = 10;
 
+    std::cout << "\n--- INICIO DE LA PARTIDA ---\n";
+
+
+    for (int ronda_actual = 1; ronda_actual <= MAX_RONDAS; ronda_actual++) {
+        system("cls");
+        std::cout << "\n=============== RONDA " << ronda_actual << " ===============\n";
+
+        // Turno del Jugador 1
+        std::cout << "\n--- Turno de " << jugadores[0].nombre << " ---\n";
+        manejarTurnoJugador(jugadores[0], jugadores[1]); // Esta es otra función clave que crearemos
+
+        // Comprobar si el juego ha terminado después del turno del jugador 1 (ej. si alcanzó los puntos objetivo)
+        if (jugadores[0].puntos_total_partida >= jugadores[0].carta_objetivo ||
+            jugadores[1].puntos_total_partida >= jugadores[1].carta_objetivo) {
+            std::cout << "\n¡Juego terminado por objetivo alcanzado!\n";
+            break; // Sale del bucle de rondas
+        }
+
+        // Turno del Jugador 2
+        std::cout << "\n--- Turno de " << jugadores[1].nombre << " ---\n";
+        manejarTurnoJugador(jugadores[1], jugadores[0]); // Pasa al otro jugador como oponente
+
+        // Comprobar si el juego ha terminado después del turno del jugador 2
+        if (jugadores[0].puntos_total_partida >= jugadores[0].carta_objetivo ||
+            jugadores[1].puntos_total_partida >= jugadores[1].carta_objetivo) {
+            std::cout << "\n¡Juego terminado por objetivo alcanzado!\n";
+            break; // Sale del bucle de rondas
+        }
+
+        // Aquí podrías añadir una pausa al final de cada ronda
+        std::cout << "\nFin de la Ronda " << ronda_actual << ". Presione Enter para la siguiente ronda...";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.get();
+    }
+
+    // Una vez que el bucle de rondas termina (por max_rondas o por objetivo)
+    std::cout << "\n--- PARTIDA FINALIZADA ---\n";
+    // Aquí deberías llamar a una función para determinar y mostrar el ganador
+    // y las estadísticas finales (ej. mostrarEstadisticasFinales(jugadores);)
+}
+
+void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
+    int opcion_turno;
+    bool turno_finalizado = false;
+    int dados_a_lanzar = 3; // El primer lanzamiento SIEMPRE es con 3 dados
+    bool primer_lanzamiento_del_turno = true; // Flag para controlar el primer lanzamiento
+
+    // Reiniciar puntos_ronda_actual y lanzamientos_en_ronda para el turno actual
+    jugador_actual.puntos_ronda_actual = 0;
+    jugador_actual.lanzamientos_en_ronda = 0;
+
+    do {
+        system("cls");
+        std::cout << "\n--- " << jugador_actual.nombre << "'s Turno ---\n";
+        std::cout << "  PT: " << jugador_actual.puntos_tiempo << " | Bugs: " << jugador_actual.bugs_acumulados;
+        std::cout << " | Puntos Ronda: " << jugador_actual.puntos_ronda_actual << "\n";
+        std::cout << "  Puntos Totales: " << jugador_actual.puntos_total_partida << " | Carta Objetivo: " << jugador_actual.carta_objetivo << "\n\n";
+
+        // Menú de opciones para el turno
+        std::cout << "1. Lanzar dados\n"; // Esta opción gestionará si son 2 o 3 dados
+        std::cout << "2. Plantarse (terminar turno y sumar puntos)\n";
+        std::cout << "3. Usar FIX (si tienes) (implementar mas adelante)\n";
+        std::cout << "Elija una opcion: ";
+        std::cin >> opcion_turno;
+
+        switch(opcion_turno) {
+            case 1: {
+                if (jugador_actual.puntos_tiempo <= 0) {
+                    std::cout << "\nNo tienes Puntos de Tiempo (PT) disponibles para lanzar.\n";
+                    std::cout << "Debes plantarte o usar FIX (si aplica).\n";
+                    system("pause");
+                    break; // Vuelve al menú del turno
+                }
+
+                // Determinar cuántos dados lanzar
+                if (primer_lanzamiento_del_turno) {
+                    dados_a_lanzar = 3;
+                    primer_lanzamiento_del_turno = false; // Ya no es el primer lanzamiento
+                    std::cout << "\nLanzarás 3 dados por ser el primer lanzamiento del turno.\n";
+                    system("pause");
+                } else {
+                    // Preguntar al jugador cuántos dados quiere lanzar (2 o 3)
+                    int eleccion_dados;
+                    bool eleccion_valida = false;
+                    do {
+                        system("cls"); // Limpiar para la elección de dados
+                        std::cout << "\n--- " << jugador_actual.nombre << "'s Turno ---\n";
+                        std::cout << "PT: " << jugador_actual.puntos_tiempo << "\n";
+                        std::cout << "¿Cuántos dados quieres lanzar? (2 o 3): ";
+                        std::cin >> eleccion_dados;
+                        if (std::cin.fail() || (eleccion_dados != 2 && eleccion_dados != 3)) {
+                            std::cin.clear(); // Limpiar flags de error
+                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar buffer
+                            std::cout << "Entrada invalida. Por favor, ingresa 2 o 3.\n";
+                            Sleep(1500);
+                        } else {
+                            eleccion_valida = true;
+                        }
+                    } while (!eleccion_valida);
+                    dados_a_lanzar = eleccion_dados;
+                }
+
+                // Gastar 1 PT por lanzamiento
+                jugador_actual.puntos_tiempo--;
+                std::cout << "\nHas gastado 1 PT. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
+                system("pause");
+
+                int puntos_tirada;
+                int bugs_tirada;
+                int fixes_tirada;
+
+                puntos_tirada = lanzarDados(dados_a_lanzar, bugs_tirada, fixes_tirada);
+
+                // Aplicar reglas de la tirada:
+                jugador_actual.puntos_ronda_actual += puntos_tirada;
+                jugador_actual.bugs_acumulados += bugs_tirada;
+                jugador_actual.bugs_acumulados -= fixes_tirada;
+                if (jugador_actual.bugs_acumulados < 0) {
+                    jugador_actual.bugs_acumulados = 0;
+                }
+
+                jugador_actual.lanzamientos_en_ronda++;
+
+                // **Verificación de penalización por BUGS** (revisar reglas exactas del PDF)
+                // Si acumula 3 o más BUGS, se planta automáticamente y pierde puntos de la ronda
+                if (jugador_actual.bugs_acumulados >= 3) {
+                    std::cout << "\n¡" << jugador_actual.nombre << " ha acumulado 3 o mas BUGS! Pierde los puntos de esta ronda (" << jugador_actual.puntos_ronda_actual << ").\n";
+                    jugador_actual.puntos_ronda_actual = 0; // Pierde los puntos de la ronda
+                    jugador_actual.bugs_acumulados = 0; // Se resetean los bugs (o según regla si se mantienen)
+                    turno_finalizado = true; // El turno termina forzosamente
+                    system("pause");
+                }
+                break;
+            }
+            case 2:
+                // Plantarse: sumar puntos de la ronda al total
+                jugador_actual.puntos_total_partida += jugador_actual.puntos_ronda_actual;
+                std::cout << "\n" << jugador_actual.nombre << " se planta. Puntos de esta ronda: " << jugador_actual.puntos_ronda_actual << ".\n";
+                turno_finalizado = true;
+                system("pause");
+                break;
+            case 3:
+                // Lógica para usar FIX (si tienes implementado un contador de FIXES en Jugador)
+                // Tendrías que añadir un contador de FIXES a la struct Jugador
+                // y lógica para descontarlos aquí.
+                std::cout << "\nFuncionalidad 'Usar FIX' no implementada aun. (Requiere FIXES acumulados).\n";
+                system("pause");
+                break;
+            default:
+                std::cout << "\nOpcion invalida. Intente de nuevo.\n";
+                Sleep(1000);
+                break;
+        }
+
+        // Si el jugador se queda sin PT y no se ha plantado/forzado el fin de turno
+        if (jugador_actual.puntos_tiempo <= 0 && !turno_finalizado) {
+             std::cout << "\n¡" << jugador_actual.nombre << " se ha quedado sin Puntos de Tiempo (PT)!\n";
+             std::cout << "Debes plantarte (opcion 2) para terminar tu turno.\n";
+             // Se forza al jugador a plantarse si no tiene PT
+             // O podrías forzar el turno a terminar aquí si las reglas lo indican.
+             // Para simplificar, lo dejo que el usuario elija plantarse manualmente.
+             system("pause");
+        }
+
+    } while (!turno_finalizado); // El bucle continúa hasta que el turno finalice
+
+    std::cout << "\nTurno de " << jugador_actual.nombre << " finalizado.\n";
+    Sleep(1000); // Pequeña pausa antes de pasar al siguiente turno/ronda
+}
 
 void menuCreditos(){
 

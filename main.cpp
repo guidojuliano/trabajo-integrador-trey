@@ -1,13 +1,11 @@
 
 #include <iostream>
 #include <windows.h>
-
-#include "game_logic.h"
-#include "player_magnament.h"
-
 #include<cstdlib>
 #include <ctime>
-
+#include <limits>
+#include "game_logic.h"
+#include "player_magnament.h"
 
 using namespace std;
 
@@ -41,12 +39,14 @@ int main(){
       cout<<endl;
       cout<<"    Por favor elija una opcion: ";
       cin>>eleccion;
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
       switch(eleccion){
         case 1:
           //cout<<"estas en jugar";
           //lanzarDados(3);
           registrarNombresJugadores(jugadores);
+          iniciarJuego(jugadores);
           break;
 
         case 2:

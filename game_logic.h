@@ -1,8 +1,8 @@
 #ifndef GAME_LOGIC_H
 #define GAME_LOGIC_H
-
-
-int lanzarDados(int cantDados);
+#include <vector>
+#include "structs.h"
+int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada);
 
 void menuCreditos();
 
@@ -14,6 +14,9 @@ void armarDadoRandom(char linea1[],char linea2[],char linea3[],char linea4[],cha
 
 void menuEstadistica();
 
+void iniciarJuego(std::vector<Jugador>& jugadores);
+
+void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente);
 
 
 #endif // GAME_LOGIC_H
