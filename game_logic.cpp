@@ -121,3 +121,63 @@ int lanzarDados(int cantDados){
 
 
 
+void menuCreditos(){
+
+  cout<<endl<<endl;
+
+  cout<<"   ╔═══════════════════════════════════════════════════════════════════════════════════╗"<<endl;
+  cout<<"   ║                                                                                   ║"<<endl;
+  cout<<"   ║   CREDITOS                                                                        ║"<<endl;
+  cout<<"   ║                                                                                   ║"<<endl;
+  cout<<"   ║                                                                                   ║"<<endl;
+  cout<<"   ║                                                                                   ║"<<endl;
+  cout<<"   ║                  ┌──────────┬──────────────────────────────────┐                  ║"<<endl;
+  cout<<"   ║                  │  lEGAJO  │   NOMBRE Y APELLIDO              │                  ║"<<endl;
+  cout<<"   ║                  ├──────────┼──────────────────────────────────┤                  ║"<<endl;
+  cout<<"   ║                  │          │                                  │                  ║"<<endl;
+  cout<<"   ║                  │   33063  │  Cristian Sebastian Gonzalez     │                  ║"<<endl;
+  cout<<"   ║                  │          │                                  │                  ║"<<endl;
+  cout<<"   ║                  │   32311  │  Guido Juliano Mazzuchini Ubaldi │                  ║"<<endl;
+  cout<<"   ║                  │          │                                  │                  ║"<<endl;
+  cout<<"   ║                  │   32396  │  Ismael Valentin Aleman          │                  ║"<<endl;
+  cout<<"   ║                  │          │                                  │                  ║"<<endl;
+  cout<<"   ║                  └──────────┴──────────────────────────────────┘                  ║"<<endl;
+  cout<<"   ║                                                                                   ║"<<endl;
+  cout<<"   ║                                                                                   ║"<<endl;
+  cout<<"   ║                                                                                   ║"<<endl;
+  cout<<"   ║                                                                                   ║"<<endl;
+  cout<<"   ║                                                                                   ║"<<endl;
+  cout<<"   ║            Copyright (C) TREYANOS Corporation. All rights reserved.               ║"<<endl;
+  cout<<"   ╚═══════════════════════════════════════════════════════════════════════════════════╝"<<endl;
+
+  cout<<endl;
+}
+
+
+void confirmarSalir(char confirm , int& eleccion){
+      if(confirm== 'S' || confirm=='N'){
+          if(confirm=='S'){
+            return ;
+          }else{
+            eleccion=4;
+            return;
+            }
+      }else{
+          cout<<endl<<" eleccion incorrecta vuelva a intentar"<<endl;
+      }
+
+}
+
+
+void cartelDeError(){
+  system("cls");
+    cout<<endl<<endl;
+
+        cout<<" ┌--------------------------------------------┐"<<endl;
+        cout<<" |                                            |"<<endl;
+        cout<<" |  eleccion incorrecta, vuelva a intentar!!  |"<<endl;
+        cout<<" |                                            |"<<endl;
+        cout<<" └--------------------------------------------┘"<<endl;
+
+
+}

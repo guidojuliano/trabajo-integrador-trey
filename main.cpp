@@ -15,11 +15,15 @@ int main(){
     srand(time(0));
     SetConsoleOutputCP(65001);
 
+
     int eleccion = -1;
     vector<Jugador> jugadores(2);
+    char confirm;
+
 
     while(eleccion!=0){
 
+      system("cls");
       cout<< endl;
       cout<<"--------------- Bienvenidos a TREY ---------------"<<endl;
       cout<< endl<< endl;
@@ -50,38 +54,31 @@ int main(){
           break;
 
         case 3:
-          cout<<"estas en creditos";
+          system("cls");
+          cout<<endl<<endl<<endl;
+          menuCreditos();
+          cout<<endl<<endl<<endl;
+          system("pause");
+          system("cls");
           break;
 
         case 0:
-
-        break;
+                cout<<endl<<"¿Esta seguro que quiere salir? S/N: ";
+                cin>> confirm;
+                confirm= toupper(confirm);
+                confirmarSalir(confirm , eleccion);
+                break;
 
         default:
-        system("cls");
-        cout<<endl<<endl;
 
-        cout<<" ┌--------------------------------------------┐"<<endl;
-        cout<<" |                                            |"<<endl;
-        cout<<" |  eleccion incorrecta, vuelva a intentar!!  |"<<endl;
-        cout<<" |                                            |"<<endl;
-        cout<<" └--------------------------------------------┘"<<endl;
+
+        cartelDeError();
 
         Sleep(2000);
         system("cls");
         break;
       }
     }
-
-
-
-//    for(int i=0; i<3;i++){
-//      int n2=tiradaDadoVertical();
-//
-//    }
-
-
-
 
 
     return 0;
