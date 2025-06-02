@@ -208,8 +208,8 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
 
         // Menú de opciones para el turno
         std::cout << "1. Lanzar dados\n"; // Esta opción gestionará si son 2 o 3 dados
-        std::cout << "2. Plantarse (terminar turno y sumar puntos)\n";
-        std::cout << "3. Usar FIX (si tienes) (implementar mas adelante)\n";
+        std::cout << "2. Plantarse\n";
+        std::cout << "3. Usar FIX (TODO)\n";
         std::cout << "Elija una opcion: ";
         std::cin >> opcion_turno;
 
