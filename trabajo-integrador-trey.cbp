@@ -32,9 +32,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename=".gitignore" />
 		<Unit filename="game_logic.cpp" />
 		<Unit filename="game_logic.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="player_magnament.cpp" />
+		<Unit filename="player_magnament.h" />
 		<Unit filename="structs.cpp" />
 		<Unit filename="structs.h" />
 		<Extensions />

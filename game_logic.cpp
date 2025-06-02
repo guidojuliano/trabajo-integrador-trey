@@ -81,42 +81,69 @@ void armarDadoRandom(char linea1[],char linea2[],char linea3[],char linea4[],cha
 
 
 
-int lanzarDados(int cantDados){
-    int puntosObtenidos=0;
+int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada) {
+    int puntos_obtenidos_tirada = 0;
+    num_bugs_en_tirada = 0;   // Inicializamos a cero
+    num_fixes_en_tirada = 0;  // Inicializamos a cero
+
     char fila1[500] = "";
     char fila2[500] = "";
     char fila3[500] = "";
     char fila4[500] = "";
     char fila5[500] = "";
 
-    for(int i= 0; i<cantDados;i++) {
+    std::cout << "\nLanzando " << cantDados << " dados...\n";
+    Sleep(1000); // Pequeña pausa dramática
+
+    for(int i = 0; i < cantDados; i++) {
         char lin1[30], lin2[30], lin3[30], lin4[30], lin5[30];
-        int numero = rand() % 6 + 1;
-        puntosObtenidos+=numero;
-        armarDadoRandom(lin1, lin2, lin3, lin4, lin5, numero);
+        int numero_dado = rand() % 6 + 1; // Genera un número entre 1 y 6
+
+        // Procesar el resultado del dado
+        switch (numero_dado) {
+            case 1:
+            case 2:
+            case 3:
+                puntos_obtenidos_tirada += numero_dado; // Caras 1, 2, 3 suman puntos
+                break;
+            case 4:
+                num_fixes_en_tirada++; // Cara 4 es 1 FIX
+                break;
+            case 5:
+                num_bugs_en_tirada++; // Cara 5 es 1 BUG
+                break;
+            case 6:
+                num_bugs_en_tirada += 2; // Cara 6 es 2 BUGS
+                break;
+        }
+
+        armarDadoRandom(lin1, lin2, lin3, lin4, lin5, numero_dado);
 
         strcat(fila1, lin1); strcat(fila1, "  ");
         strcat(fila2, lin2); strcat(fila2, "  ");
         strcat(fila3, lin3); strcat(fila3, "  ");
         strcat(fila4, lin4); strcat(fila4, "  ");
         strcat(fila5, lin5); strcat(fila5, "  ");
+    }
 
-      }
-    system("cls");
+    system("cls"); // Limpia la consola
+    std::cout << "\n\n\n";
+    std::cout << "  " << fila1 << std::endl;
+    std::cout << "  " << fila2 << std::endl;
+    std::cout << "  " << fila3 << std::endl;
+    std::cout << "  " << fila4 << std::endl;
+    std::cout << "  " << fila5 << std::endl;
+    std::cout << std::endl;
 
-    cout<<endl<<endl<<endl;
-    cout <<"  "<<fila1 << endl;
-    cout <<"  "<< fila2 << endl;
-    cout <<"  "<< fila3 << endl;
-    cout <<"  "<< fila4 << endl;
-    cout <<"  "<< fila5 << endl;
-    cout <<endl;
+    std::cout << "  Puntos obtenidos: " << puntos_obtenidos_tirada << std::endl;
+    std::cout << "  Bugs obtenidos:   " << num_bugs_en_tirada << std::endl;
+    std::cout << "  Fixes obtenidos:  " << num_fixes_en_tirada << std::endl;
+    std::cout << std::endl << std::endl;
 
-    cout<<" puntos obtenidos: "<<puntosObtenidos<< endl;
-    cout<<endl<<endl<<endl;
     system("pause");
-    system("cls");
+    //system("cls");
 
+    return puntos_obtenidos_tirada;
 }
 
 
