@@ -10,6 +10,7 @@ void confirmarSalir(char confirm, int& eleccion );
 
 void cartelDeError();
 
+void menuEstadistica();
 
 
 #endif // MISFUNCIONES_H_INCLUDED

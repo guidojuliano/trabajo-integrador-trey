@@ -181,3 +181,36 @@ void cartelDeError(){
 
 
 }
+
+
+void menuEstadistica(){
+  system("cls");
+cout<<endl<<endl;
+
+  cout<<"                                                                                        "<<endl;
+  cout<<"                                                                                        "<<endl;
+  cout<<"   TREY                                                                                 "<<endl;
+  cout<<"   ------------------------------------------------------------                         "<<endl;
+  cout<<"                                                                                        "<<endl;
+  cout<<"   HITO                                                                                 "<<endl;
+  cout<<"   ------------------------------------------------------------                         "<<endl;
+  cout<<"   Puntos                                                                               "<<endl;
+  cout<<"   BUGS                                                                                 "<<endl;
+  cout<<"   Tiempo                                                                               "<<endl;
+  cout<<"   Menor BUGS                                                                           "<<endl;
+  cout<<"   Llegar a 0 BUGS                                                                      "<<endl;
+  cout<<"   Acumular 20 puntos                                                                   "<<endl;
+  cout<<"   ------------------------------------------------------------                         "<<endl;
+  cout<<"   TOTAL                                                                                "<<endl;
+  cout<<"                                                                                        "<<endl;
+  cout<<"   GANADOR:                                                                             "<<endl;
+  cout<<"                                                                                        "<<endl;
+  cout<<endl<<endl<<endl;
+
+  cout<<"      Copyright (C) TREYANOS Corporation. All rights reserved. "<<endl;
+
+  cout<<endl;
+
+  system("pause");
+
+}

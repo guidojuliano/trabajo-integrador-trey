@@ -50,7 +50,7 @@ int main(){
           break;
 
         case 2:
-          cout<<"estas en estadistica";
+          menuEstadistica();
           break;
 
         case 3:
