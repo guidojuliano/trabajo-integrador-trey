@@ -3,8 +3,9 @@
 #include <windows.h>
 
 #include "game_logic.h"
+#include "player_magnament.h"
 
-#include<cstdlib> // para numeros random
+#include<cstdlib>
 #include <ctime>
 
 
@@ -15,6 +16,7 @@ int main(){
     SetConsoleOutputCP(65001);
 
     int eleccion = -1;
+    vector<Jugador> jugadores(2);
 
     while(eleccion!=0){
 
@@ -39,7 +41,8 @@ int main(){
       switch(eleccion){
         case 1:
           //cout<<"estas en jugar";
-          lanzarDados(3);
+          //lanzarDados(3);
+          registrarNombresJugadores(jugadores);
           break;
 
         case 2:

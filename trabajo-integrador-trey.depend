@@ -16,22 +16,40 @@
 	<ctime>
 	<cstring>
 
-1748744874 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\main.cpp
+1748820945 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\main.cpp
 	<iostream>
 	<windows.h>
 	"game_logic.h"
+	"player_magnament.h"
 	<cstdlib>
 	<ctime>
 
-1748742976 c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\game_logic.h
+1748754967 c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\game_logic.h
 
-1748742976 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\structs.cpp
+1748754967 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\structs.cpp
 
-1748745334 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\game_logic.cpp
+1748754967 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\game_logic.cpp
 	"game_logic.h"
 	<iostream>
 	<windows.h>
 	<cstdlib>
 	<ctime>
 	<cstring>
+
+1748821281 c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\player_magnament.h
+	"structs.h"
+	<vector>
+
+1748754967 c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\structs.h
+	<string>
+
+1748822344 source:c:\users\julia\documents\utn frgp\programacion 1\ejercicios c++\trabajo-integrador-trey\player_magnament.cpp
+	<iostream>
+	<string>
+	<limits>
+	<vector>
+	<windows.h>
+	<cctype>
+	<cstdlib>
+	"player_magnament.h"
 
