@@ -39,7 +39,6 @@ int main(){
       cout<<endl;
       cout<<"    Por favor elija una opcion: ";
       cin>>eleccion;
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
       switch(eleccion){
         case 1:
