@@ -1,0 +1,38 @@
+# === Code::Blocks ===
+*.depend
+*.layout
+*.cbTemp
+
+# === Archivos binarios y de compilación ===
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
+*.gch
+*.pdb
+*.d
+*.map
+*.log
+
+# === Carpetas de build comunes ===
+/bin/
+/obj/
+/build/
+
+# === Archivos de respaldo y temporales ===
+*~
+*.bak
+*.swp
+*.swo
+
+# === Archivos del sistema (Windows/macOS) ===
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# === Otros ===
+*.user
+
