@@ -38,32 +38,22 @@ int main(){
           break;
 
         case 3:
-          system("cls");
+
           cout<<endl<<endl<<endl;
           menuCreditos();
           cout<<endl<<endl<<endl;
-          system("pause");
-          system("cls");
+
           break;
 
         case 0:
-                cout<<endl<<"¿Esta seguro que quiere salir? S/N: ";
-                cin>> confirm;
-                confirm= toupper(confirm);
-
-                if(confirm == 'S' || confirm == 'N'){
-                   confirmarSalir(confirm , eleccion);
-                }else {
-                  cartelDeError();
-                  Sleep(2000);
-                  eleccion = 894;
-                }
-
-
-                 break;
+          cout<<endl<<"¿Esta seguro que quiere salir? S/N: ";
+          cin>> confirm;
+          confirm= toupper(confirm);
+          confirmarSalir(confirm , eleccion);
+          Sleep(2000);
+          break;
 
         default:
-
 
         cartelDeError();
         Sleep(2000);

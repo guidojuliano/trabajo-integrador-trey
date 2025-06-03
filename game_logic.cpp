@@ -325,6 +325,7 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
 }
 
 void menuCreditos(){
+  system("cls");
 
   cout<<endl<<endl;
 
@@ -354,6 +355,8 @@ void menuCreditos(){
   cout<<"   ╚═══════════════════════════════════════════════════════════════════════════════════╝"<<endl;
 
   cout<<endl;
+  system("pause");
+  system("cls");
 }
 
 
@@ -368,6 +371,7 @@ void confirmarSalir(char confirm , int& eleccion){
       }else{
          // cout<<endl<<" eleccion incorrecta vuelva a intentar"<<endl;
          cartelDeError();
+         eleccion=894;
       }
 
 }
