@@ -21,22 +21,7 @@ int main(){
 
     while(eleccion!=0){
 
-      system("cls");
-      cout<< endl;
-      cout<<"--------------- Bienvenidos a TREY ---------------"<<endl;
-      cout<< endl<< endl;
-      cout<<"   ┌---------------------------------------┐"<<endl;
-      cout<<"   | MENU PRINCIPAL                        |"<<endl;
-      cout<<"   ├---------------------------------------┤"<<endl;
-      cout<<"   |                                       |"<<endl;
-      cout<<"   |            1 - JUGAR                  |"<<endl;
-      cout<<"   |            2 - ESTADISTICA            |"<<endl;
-      cout<<"   |            3 - CREDITOS               |"<<endl;
-      cout<<"   |                                       |"<<endl;
-      cout<<"   ├---------------------------------------┤"<<endl;
-      cout<<"   |            0 - SALIR                  |"<<endl;
-      cout<<"   └---------------------------------------┘"<<endl;
-      cout<<endl;
+      menuPrincipal();
       cout<<"    Por favor elija una opcion: ";
       cin>>eleccion;
 
@@ -65,14 +50,22 @@ int main(){
                 cout<<endl<<"¿Esta seguro que quiere salir? S/N: ";
                 cin>> confirm;
                 confirm= toupper(confirm);
-                confirmarSalir(confirm , eleccion);
-                break;
+
+                if(confirm == 'S' || confirm == 'N'){
+                   confirmarSalir(confirm , eleccion);
+                }else {
+                  cartelDeError();
+                  Sleep(2000);
+                  eleccion = 894;
+                }
+
+
+                 break;
 
         default:
 
 
         cartelDeError();
-
         Sleep(2000);
         system("cls");
         break;

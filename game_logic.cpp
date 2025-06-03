@@ -98,7 +98,7 @@ int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada
         char lin1[30], lin2[30], lin3[30], lin4[30], lin5[30];
         int numero_dado = rand() % 6 + 1; // Genera un número entre 1 y 6
 
-        puntos_obtenidos_tirada += numero_dado; // Caras 1, 2, 3 suman puntos
+        puntos_obtenidos_tirada += numero_dado; // suman puntos total de la tirada
 
         // Procesar el resultado del dado
         switch (numero_dado) {
@@ -362,11 +362,12 @@ void confirmarSalir(char confirm , int& eleccion){
           if(confirm=='S'){
             return ;
           }else{
-            eleccion=4;
+            eleccion=894;
             return;
             }
       }else{
-          cout<<endl<<" eleccion incorrecta vuelva a intentar"<<endl;
+         // cout<<endl<<" eleccion incorrecta vuelva a intentar"<<endl;
+         cartelDeError();
       }
 
 }
@@ -416,4 +417,24 @@ cout<<endl<<endl;
 
   system("pause");
 
+}
+
+
+void menuPrincipal (){
+system("cls");
+      cout<< endl;
+      cout<<"--------------- Bienvenidos a TREY ---------------"<<endl;
+      cout<< endl<< endl;
+      cout<<"   ┌---------------------------------------┐"<<endl;
+      cout<<"   | MENU PRINCIPAL                        |"<<endl;
+      cout<<"   ├---------------------------------------┤"<<endl;
+      cout<<"   |                                       |"<<endl;
+      cout<<"   |            1 - JUGAR                  |"<<endl;
+      cout<<"   |            2 - ESTADISTICA            |"<<endl;
+      cout<<"   |            3 - CREDITOS               |"<<endl;
+      cout<<"   |                                       |"<<endl;
+      cout<<"   ├---------------------------------------┤"<<endl;
+      cout<<"   |            0 - SALIR                  |"<<endl;
+      cout<<"   └---------------------------------------┘"<<endl;
+      cout<<endl;
 }
