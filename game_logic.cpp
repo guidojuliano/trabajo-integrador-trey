@@ -82,8 +82,8 @@ void armarDadoRandom(char linea1[],char linea2[],char linea3[],char linea4[],cha
 
 int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada) {
     int puntos_obtenidos_tirada = 0;
-    num_bugs_en_tirada = 0;   // Inicializamos a cero
-    num_fixes_en_tirada = 0;  // Inicializamos a cero
+    num_bugs_en_tirada = 0;
+    num_fixes_en_tirada = 0;
 
     char fila1[500] = "";
     char fila2[500] = "";
@@ -92,13 +92,13 @@ int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada
     char fila5[500] = "";
 
     std::cout << "\nLanzando " << cantDados << " dados...\n";
-    Sleep(1000); // Pequeña pausa dramática
+    Sleep(1000);
 
     for(int i = 0; i < cantDados; i++) {
         char lin1[30], lin2[30], lin3[30], lin4[30], lin5[30];
         int numero_dado = rand() % 6 + 1; // Genera un número entre 1 y 6
 
-        // Procesar el resultado del dado
+
         switch (numero_dado) {
             case 1:
             case 2:
@@ -126,18 +126,18 @@ int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada
     }
 
     system("cls"); // Limpia la consola
-    std::cout << "\n\n\n";
-    std::cout << "  " << fila1 << std::endl;
-    std::cout << "  " << fila2 << std::endl;
-    std::cout << "  " << fila3 << std::endl;
-    std::cout << "  " << fila4 << std::endl;
-    std::cout << "  " << fila5 << std::endl;
-    std::cout << std::endl;
+    cout << "\n\n\n";
+    cout << "  " << fila1 << std::endl;
+    cout << "  " << fila2 << std::endl;
+    cout << "  " << fila3 << std::endl;
+    cout << "  " << fila4 << std::endl;
+    cout << "  " << fila5 << std::endl;
+    cout << std::endl;
 
-    std::cout << "  Puntos obtenidos: " << puntos_obtenidos_tirada << std::endl;
-    std::cout << "  Bugs obtenidos:   " << num_bugs_en_tirada << std::endl;
-    std::cout << "  Fixes obtenidos:  " << num_fixes_en_tirada << std::endl;
-    std::cout << std::endl << std::endl;
+    cout << "  Puntos obtenidos: " << puntos_obtenidos_tirada << std::endl;
+    cout << "  Bugs obtenidos:   " << num_bugs_en_tirada << std::endl;
+    cout << "  Fixes obtenidos:  " << num_fixes_en_tirada << std::endl;
+    cout << endl << endl;
 
     system("pause");
     //system("cls");

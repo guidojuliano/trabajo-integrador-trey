@@ -24,11 +24,9 @@ void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
         cout << "Antes de comenzar deben registrar sus nombres:\n\n";
 
         cout << "¿Nombre jugador 1? ";
-        getline(cin, nombre_temporal);
-        jugadores[0].nombre = nombre_temporal;
+        cin >> jugadores[0].nombre;
         cout << "¿Nombre jugador 2? ";
-        getline(cin, nombre_temporal);
-        jugadores[1].nombre = nombre_temporal;
+        cin >> jugadores[1].nombre;
 
         cout << "\nNombres registrados:\n";
         cout << "Jugador 1: " << jugadores[0].nombre << "\n";
@@ -36,6 +34,7 @@ void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
 
         cout << "\n¿Confirmar nombres? (S/N) ";
         cin >> confirmacion;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         confirmacion = toupper(confirmacion);
 
         if (confirmacion == 'S') {
@@ -49,7 +48,6 @@ void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
             mostrarCartaYPTInicial(jugadores[0]);
             mostrarCartaYPTInicial(jugadores[1]);
             cout << "\nPresione cualquier tecla para continuar...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cin.get();
         } else if (confirmacion != 'N') {
             cout << "Respuesta invalida. Por favor, ingrese 'S' o 'N'.\n";
@@ -81,8 +79,8 @@ void asignarCartaYPT(Jugador& jugador) {
 }
 
 void mostrarCartaYPTInicial(const Jugador& jugador) {
-    std::cout << "\n--- " << jugador.nombre << " ---\n";
-    std::cout << "Carta de Proyecto: " << jugador.carta_objetivo << "\n";
-    std::cout << "Puntos de Tiempo (PT) iniciales: " << jugador.puntos_tiempo << "\n";
-    std::cout << "--------------------------------\n";
+    cout << "\n--- " << jugador.nombre << " ---\n";
+    cout << "Carta de Proyecto: " << jugador.carta_objetivo << "\n";
+    cout << "Puntos de Tiempo (PT) iniciales: " << jugador.puntos_tiempo << "\n";
+    cout << "--------------------------------\n";
 }
