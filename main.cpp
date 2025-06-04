@@ -21,30 +21,12 @@ int main(){
 
     while(eleccion!=0){
 
-      system("cls");
-      cout<< endl;
-      cout<<"--------------- Bienvenidos a TREY ---------------"<<endl;
-      cout<< endl<< endl;
-      cout<<"   ┌---------------------------------------┐"<<endl;
-      cout<<"   | MENU PRINCIPAL                        |"<<endl;
-      cout<<"   ├---------------------------------------┤"<<endl;
-      cout<<"   |                                       |"<<endl;
-      cout<<"   |            1 - JUGAR                  |"<<endl;
-      cout<<"   |            2 - ESTADISTICA            |"<<endl;
-      cout<<"   |            3 - CREDITOS               |"<<endl;
-      cout<<"   |                                       |"<<endl;
-      cout<<"   ├---------------------------------------┤"<<endl;
-      cout<<"   |            0 - SALIR                  |"<<endl;
-      cout<<"   └---------------------------------------┘"<<endl;
-      cout<<endl;
+      menuPrincipal();
       cout<<"    Por favor elija una opcion: ";
       cin>>eleccion;
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
       switch(eleccion){
         case 1:
-          //cout<<"estas en jugar";
-          //lanzarDados(3);
           registrarNombresJugadores(jugadores);
           iniciarJuego(jugadores);
           break;
@@ -54,26 +36,24 @@ int main(){
           break;
 
         case 3:
-          system("cls");
+
           cout<<endl<<endl<<endl;
           menuCreditos();
           cout<<endl<<endl<<endl;
-          system("pause");
-          system("cls");
+
           break;
 
         case 0:
-                cout<<endl<<"¿Esta seguro que quiere salir? S/N: ";
-                cin>> confirm;
-                confirm= toupper(confirm);
-                confirmarSalir(confirm , eleccion);
-                break;
+          cout<<endl<<"¿Esta seguro que quiere salir? S/N: ";
+          cin>> confirm;
+          confirm= toupper(confirm);
+          confirmarSalir(confirm , eleccion);
+          Sleep(2000);
+          break;
 
         default:
 
-
         cartelDeError();
-
         Sleep(2000);
         system("cls");
         break;
@@ -82,4 +62,4 @@ int main(){
 
 
     return 0;
-  }
+}

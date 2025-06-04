@@ -18,5 +18,8 @@ void iniciarJuego(std::vector<Jugador>& jugadores);
 
 void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente);
 
+void menuPrincipal();
+
+
 
 #endif // GAME_LOGIC_H
