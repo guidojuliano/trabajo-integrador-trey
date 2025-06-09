@@ -32,19 +32,14 @@ int main(){
           registrarNombresJugadores(jugadores);
           iniciarJuego(jugadores);
           break;
-
         case 2:
           menuEstadistica();
           break;
-
         case 3:
-
           cout<<endl<<endl<<endl;
           menuCreditos();
           cout<<endl<<endl<<endl;
-
           break;
-
         case 0:
           cout<<endl<<"¿Esta seguro que quiere salir? S/N: ";
           cin>> confirm;
@@ -54,7 +49,6 @@ int main(){
           break;
 
         default:
-
         cartelDeError();
         Sleep(2000);
         system("cls");
