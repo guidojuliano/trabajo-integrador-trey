@@ -1,5 +1,6 @@
 #ifndef GAME_LOGIC_H
 #define GAME_LOGIC_H
+
 #include <vector>
 #include "structs.h"
 int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada);

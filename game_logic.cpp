@@ -1,3 +1,5 @@
+#include "player_magnament.h"
+#include <iomanip> // para poder controlar los espacios en la tabla y que no se desforme
 
 #include "game_logic.h"
 #include <vector>
@@ -7,7 +9,6 @@
 #include<cstdlib> // para numeros random
 #include <ctime>
 #include <cstring>
-#include "player_magnament.h"
 
 using namespace std;
 
@@ -224,7 +225,7 @@ void cuantos_dados_tiras(Jugador& pj, int& eleccion, bool& valido, int& cuantos_
                         // verificacion de penalizacion
                         if(pj.bugs_acumulados>2){
                         std::cout << "Tiene una penalizacion por acumulacion de bug"<<endl;
-                        std::cout << "solo puede elejir lanzar (2) dados: "<<endl;
+                        std::cout << "solo puede elejir lanzar (2) dados: ";
                         std::cin >> cuantos_dados;
                            if(cuantos_dados!=2){
                                cout<<"Te avise que solo puedes elejir 2 dados, lo hago por ti."<<endl;
@@ -283,8 +284,9 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
                     int eleccion_dados;
                     bool eleccion_valida = false;
 
-                    //prueba de penalizacion eliminar linea luego
+                    //prueba de penalizacion eliminar eta linea luego
                     jugador_actual.bugs_acumulados=6;
+
 
                     cuantos_dados_tiras(jugador_actual, eleccion_dados, eleccion_valida, eleccion_dados);
 
