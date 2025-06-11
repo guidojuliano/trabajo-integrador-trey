@@ -1,21 +1,16 @@
 #include <iostream>
 #include <string>
 #include <limits>
-#include <vector>
 #include <windows.h>
 #include <cctype>
 #include <cstdlib>
 #include "player_magnament.h"
 using namespace std;
 
-void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
+void registrarNombresJugadores(Jugador jugadores[2]) {
     string nombre_temporal;
     char confirmacion;
     bool nombres_confirmados = false;
-
-    if (jugadores.size() != 2) {
-        jugadores.resize(2);
-    }
 
     do {
         system("cls");
