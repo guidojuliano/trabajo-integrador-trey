@@ -2,11 +2,12 @@
 #define PLAYER_MANAGEMENT_H
 
 #include "structs.h"
-#include <vector>
+
 
 // Declaración de la función para registrar jugadores
 
-void registrarNombresJugadores(std::vector<Jugador>& jugadores);
+void registrarNombresJugadores(Jugador jugadores[2]);
+
 void asignarCartaYPT(Jugador& jugador);
 void mostrarCartaYPTInicial(const Jugador& jugador);
 

@@ -1,21 +1,18 @@
 #include <iostream>
 #include <string>
 #include <limits>
-#include <vector>
 #include <windows.h>
 #include <cctype>
 #include <cstdlib>
 #include "player_magnament.h"
 using namespace std;
 
-void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
+
+void registrarNombresJugadores(Jugador jugadores[2]) {
+
     string nombre_temporal;
     char confirmacion;
     bool nombres_confirmados = false;
-
-    if (jugadores.size() != 2) {
-        jugadores.resize(2);
-    }
 
     do {
         system("cls");
@@ -34,7 +31,7 @@ void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
 
         cout << "\n¿Confirmar nombres? (S/N) ";
         cin >> confirmacion;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
         confirmacion = toupper(confirmacion);
 
         if (confirmacion == 'S') {
@@ -48,7 +45,6 @@ void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
             mostrarCartaYPTInicial(jugadores[0]);
             mostrarCartaYPTInicial(jugadores[1]);
             cout << "\nPresione cualquier tecla para continuar...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cin.get();
         } else if (confirmacion != 'N') {
             cout << "Respuesta invalida. Por favor, ingrese 'S' o 'N'.\n";
@@ -57,6 +53,11 @@ void registrarNombresJugadores(std::vector<Jugador>& jugadores) {
     } while (!nombres_confirmados);
 
     cout << "\nNombres confirmados! El juego esta listo para iniciar.\n";
+
+    // inicializa hito cero bug
+    jugadores[0].llego_a_cero_bugs_alguna_vez=false;
+    jugadores[1].llego_a_cero_bugs_alguna_vez=false;
+
     Sleep(1500);
 }
 
@@ -80,8 +81,10 @@ void asignarCartaYPT(Jugador& jugador) {
 }
 
 void mostrarCartaYPTInicial(const Jugador& jugador) {
-    std::cout << "\n--- " << jugador.nombre << " ---\n";
-    std::cout << "Carta de Proyecto: " << jugador.carta_objetivo << "\n";
-    std::cout << "Puntos de Tiempo (PT) iniciales: " << jugador.puntos_tiempo << "\n";
-    std::cout << "--------------------------------\n";
+
+    cout << "\n--- " << jugador.nombre << " ---\n";
+    cout << "Carta de Proyecto: " << jugador.carta_objetivo << "\n";
+    cout << "Puntos de Tiempo (PT) iniciales: " << jugador.puntos_tiempo << "\n";
+    cout << "--------------------------------\n";
+
 }

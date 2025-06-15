@@ -1,7 +1,9 @@
 
 #include <iostream>
 #include <windows.h>
-#include<cstdlib>
+
+#include <cstdlib>
+
 #include <ctime>
 #include <limits>
 #include "game_logic.h"
@@ -11,11 +13,21 @@ using namespace std;
 
 int main(){
     srand(time(0));
-    SetConsoleOutputCP(65001);
+
+    SetConsoleOutputCP(65001);//para que se vea acentos y caracteres especiales
+
+    Ranking ganadores[5];
+
+    cargaranking(ganadores);
+
+    string ganador =ganadores[0].ganador;
+    int puntoGanador = ganadores[0].puntos;
 
 
     int eleccion = -1;
-    vector<Jugador> jugadores(2);
+
+    Jugador jugadores[2];
+
     char confirm;
 
 
@@ -27,13 +39,11 @@ int main(){
 
       switch(eleccion){
         case 1:
-          //cout<<"estas en jugar";
-          //lanzarDados(3);
           registrarNombresJugadores(jugadores);
-          iniciarJuego(jugadores);
+          iniciarJuego(jugadores, ganador, puntoGanador, ganadores);
           break;
         case 2:
-          menuEstadistica();
+         menuEstadistica(ganador, puntoGanador, ganadores);
           break;
         case 3:
           cout<<endl<<endl<<endl;
@@ -58,4 +68,5 @@ int main(){
 
 
     return 0;
-  }
+
+}

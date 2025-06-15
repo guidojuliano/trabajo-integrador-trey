@@ -15,4 +15,24 @@ struct Jugador {
     bool llego_a_cero_bugs_alguna_vez;
     bool acumulo_20_puntos_sin_bugs_alguna_vez;
 };
+
+
+struct ResultadoPartida{
+    int puntos;
+    int cantidadBugs;
+    int puntosPorTiempo;
+    int cantidadTiempo;
+    int puntosMenorBugs;
+    int puntosCeroBugsAlgunaVez;
+    int puntosAcumular20;
+    int puntosPorBugs;
+    int totalFinal;
+
+};
+
+struct Ranking{
+   std::string ganador;
+   int puntos;
+};
+
 #endif

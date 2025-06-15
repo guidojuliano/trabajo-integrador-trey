@@ -1,14 +1,18 @@
+
 #include "player_magnament.h"
-#include <iomanip> // para poder controlar los espacios en la tabla y que no se desforme
+#include "structs.h"
 
 #include "game_logic.h"
-#include <vector>
+
+#include <iomanip> // para poder controlar los espacios en la tabla y que no se desforme
+
 #include <iostream>
 #include <windows.h>
 #include <limits>
 #include<cstdlib> // para numeros random
 #include <ctime>
 #include <cstring>
+
 
 using namespace std;
 
@@ -80,11 +84,12 @@ void armarDadoRandom(char linea1[],char linea2[],char linea3[],char linea4[],cha
 }
 
 
-
 int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada) {
     int puntos_obtenidos_tirada = 0;
-    num_bugs_en_tirada = 0;   // Inicializamos a cero
-    num_fixes_en_tirada = 0;  // Inicializamos a cero
+
+    num_bugs_en_tirada = 0;
+    num_fixes_en_tirada = 0;
+
 
     char fila1[500] = "";
     char fila2[500] = "";
@@ -92,8 +97,10 @@ int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada
     char fila4[500] = "";
     char fila5[500] = "";
 
-    std::cout << "\nLanzando " << cantDados << " dados...\n";
-    Sleep(1000); // Pequeña pausa dramática
+
+    cout << "\nLanzando " << cantDados << " dados...\n";
+    Sleep(1000);
+
 
     for(int i = 0; i < cantDados; i++) {
         char lin1[30], lin2[30], lin3[30], lin4[30], lin5[30];
@@ -104,11 +111,14 @@ int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada
         // Procesar el resultado del dado
         switch (numero_dado) {
             case 1:
+
                 num_bugs_en_tirada++; // Cara 5 es 1 BUG
                 break;
             case 3:
                 num_fixes_en_tirada++; // Cara 4 es 1 FIX
                 break;
+            default:
+               break;
 
         }
 
@@ -122,18 +132,20 @@ int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada
     }
 
     system("cls"); // Limpia la consola
-    std::cout << "\n\n\n";
-    std::cout << "  " << fila1 << std::endl;
-    std::cout << "  " << fila2 << std::endl;
-    std::cout << "  " << fila3 << std::endl;
-    std::cout << "  " << fila4 << std::endl;
-    std::cout << "  " << fila5 << std::endl;
-    std::cout << std::endl;
 
-    std::cout << "  Puntos obtenidos: " << puntos_obtenidos_tirada << std::endl;
-    std::cout << "  Bugs obtenidos:   " << num_bugs_en_tirada << std::endl;
-    std::cout << "  Fixes obtenidos:  " << num_fixes_en_tirada << std::endl;
-    std::cout << std::endl << std::endl;
+    cout << "\n\n\n";
+    cout << "  " << fila1 << std::endl;
+    cout << "  " << fila2 << std::endl;
+    cout << "  " << fila3 << std::endl;
+    cout << "  " << fila4 << std::endl;
+    cout << "  " << fila5 << std::endl;
+    cout << std::endl;
+
+    cout << "  Puntos obtenidos: " << puntos_obtenidos_tirada << std::endl;
+    cout << "  Bugs obtenidos:   " << num_bugs_en_tirada << std::endl;
+    cout << "  Fixes obtenidos:  " << num_fixes_en_tirada << std::endl;
+    cout << std::endl << std::endl;
+
 
     system("pause");
     //system("cls");
@@ -142,54 +154,174 @@ int lanzarDados(int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada
 }
 
 
-void iniciarJuego(std::vector<Jugador>& jugadores) {
-    const int MAX_RONDAS = 10;
+void calcular_resultado( Jugador p[2], ResultadoPartida re[2], string& ganador, int& puntoGanador){
 
-    std::cout << "\n--- INICIO DE LA PARTIDA ---\n";
+   for(int i=0;i<2;i++){
+
+      re[i].puntos= p[i].puntos_total_partida;
+      re[i].cantidadBugs = p[i].bugs_acumulados;
+      re[i].puntosPorBugs= p[i].bugs_acumulados * 5;
+      re[i].cantidadTiempo= p[i].puntos_tiempo;
+      re[i].puntosPorTiempo= p[i].puntos_tiempo * 7;
+
+      if(p[i].acumulo_20_puntos_sin_bugs_alguna_vez){
+         re[i].puntosAcumular20=10;
+      }else{
+        re[i].puntosAcumular20=0;
+      }
+
+      if(p[i].llego_a_cero_bugs_alguna_vez){
+         re[i].puntosCeroBugsAlgunaVez =15;
+      }else{
+         re[i].puntosCeroBugsAlgunaVez =0;
+      }
+
+
+      if(p[0].bugs_acumulados< p[1].bugs_acumulados){
+         re[0].puntosMenorBugs = 7;
+         re[1].puntosMenorBugs = 0;
+      }else if(p[0].bugs_acumulados> p[1].bugs_acumulados){
+         re[1].puntosMenorBugs = 7;
+         re[0].puntosMenorBugs = 0;
+      }else {
+         re[0].puntosMenorBugs = 7;
+         re[1].puntosMenorBugs = 7;
+      }
+
+      re[i].totalFinal=(re[i].puntos + re[i].puntosAcumular20 + re[i].puntosMenorBugs + re[i].puntosPorTiempo + re[i].puntosCeroBugsAlgunaVez) - re[i].puntosPorBugs;
+
+   }
+
+ if(re[0].totalFinal>re[1].totalFinal){
+   ganador = p[0].nombre;
+   puntoGanador=re[0].totalFinal;
+ }else if(re[0].totalFinal<re[1].totalFinal){
+   ganador = p[1].nombre;
+   puntoGanador=re[1].totalFinal;
+ }else{
+   ganador= "empate";
+   puntoGanador=re[0].totalFinal;
+ }
+
+
+}
+
+
+void menuResultado(Jugador player[2],string& ganador, int& puntoGanador){
+
+   ResultadoPartida result[2];
+
+   calcular_resultado(player,result, ganador, puntoGanador);
+
+  system("cls");
+  cout<<endl<<endl<<endl;
+
+
+  cout<<"                              FIN DE LA PARTIDA!!!                                               "<<endl;
+  cout<<"                                                                                                 "<<endl;
+  cout<<"   TREY                                                                                          "<<endl;
+  cout<<"   -------------------------------------------------------------------                           "<<endl;
+  cout<<"                                                                                                 "<<endl;
+  cout<<left<<setw(25)<<"   HITO "<<right<< setw(13)<<player[0].nombre << setw(6)<<" "<<right<<setw(13)<< player[1].nombre <<endl;
+  cout<<"   -------------------------------------------------------------------                           "<<endl;
+  cout<<left<<setw(28)<<"   Puntos"<<right<< setw(5)<<result[0].puntos<<" PTS "<<setw(14)<<result[1].puntos<<" PTS "            <<endl;
+
+  cout<<left<<setw(26)<<"   BUGS"<<right<< setw(5)<<"-"<< result[0].puntosPorBugs<<" PTS "<<"("<<result[0].cantidadBugs<<")"<<setw(9)<<"-"<<result[1].puntosPorBugs <<" PTS ""("<<result[1].cantidadBugs <<")"<<endl;
+  cout<<left<<setw(28)<<"   Tiempo"<<right<< setw(5)<<result[0].puntosPorTiempo<<" PTS "<<"("<<result[0].cantidadTiempo<<")"<<setw(11)<<result[1].puntosPorTiempo <<" PTS "<<"("<<result[1].cantidadTiempo<<")"<<endl;
+
+  cout<<left<<setw(28)<<"   Menor BUGS"<<right<< setw(5)<<result[0].puntosMenorBugs<<" PTS "<<setw(14)<<result[1].puntosMenorBugs<<" PTS "        <<endl;
+  cout<<left<<setw(28)<<"   Llegar a 0 BUGS"<<right<< setw(5)<< result[0].puntosCeroBugsAlgunaVez <<" PTS "<<setw(14)<<result[1].puntosCeroBugsAlgunaVez<<" PTS "       <<endl;
+  cout<<left<<setw(28)<<"   Acumular 20 puntos"<<right<< setw(5)<< result[0].puntosAcumular20<<" PTS "<<setw(14)<<result[1].puntosAcumular20<<" PTS "   <<endl;
+
+  cout<<"   -------------------------------------------------------------------                           "<<endl;
+  cout<<left<<setw(28)<<"   TOTAL"<<right<< setw(5)<< result[0].totalFinal<<" PTS "<<setw(14)<<result[1].totalFinal<<" PTS "              <<endl;
+  cout<<"                                                                                                 "<<endl;
+  cout<<"     GANADOR: "<<ganador<<" con "<< puntoGanador<<" puntos."       <<endl;
+  cout<<"                                                                                                 "<<endl;
+  cout<<endl<<endl<<endl;
+
+  cout<<"      Copyright (C) TREYANOS Corporation. All rights reserved. " <<endl;
+
+  cout<<endl;
+
+  system("pause");
+
+}
+
+
+void acomodarRanking(Ranking ganadores[5],const string& jp, const int& puntoJp){
+
+  for(int i=0; i<5;i++){
+
+     if(puntoJp > ganadores[i].puntos ){
+
+         for(int x=4; x>i;x--){
+               ganadores[x].ganador= ganadores[x-1].ganador;
+               ganadores[x].puntos = ganadores[x-1].puntos;
+         }
+         ganadores[i].ganador= jp;
+         ganadores[i].puntos= puntoJp;
+         break;
+     }
+   }
+}
+
+
+void iniciarJuego(Jugador jugadores[2], string& ganador, int& puntoGanador, Ranking ganadores[5]) {
+    const int MAX_RONDAS = 2;
+
+    cout << "\n--- INICIO DE LA PARTIDA ---\n";
+
 
 
     for (int ronda_actual = 1; ronda_actual <= MAX_RONDAS; ronda_actual++) {
         system("cls");
-        std::cout << "\n=============== RONDA " << ronda_actual << " ===============\n";
+
+        cout << "\n=============== RONDA " << ronda_actual << " ===============\n";
 
         // Turno del Jugador 1
-        std::cout << "\n--- Turno de " << jugadores[0].nombre << " ---\n";
-        manejarTurnoJugador(jugadores[0], jugadores[1]); // Esta es otra función clave que crearemos
+        cout << "\n--- Turno de " << jugadores[0].nombre << " ---\n";
+        manejarTurnoJugador(jugadores[0], jugadores[1]);
 
-        // Comprobar si el juego ha terminado después del turno del jugador 1 (ej. si alcanzó los puntos objetivo)
+
         if (jugadores[0].puntos_total_partida >= jugadores[0].carta_objetivo ||
             jugadores[1].puntos_total_partida >= jugadores[1].carta_objetivo) {
-            std::cout << "\n¡Juego terminado por objetivo alcanzado!\n";
-            break; // Sale del bucle de rondas
+            cout << "\n¡Juego terminado por objetivo alcanzado!\n";
+            break;
         }
 
         // Turno del Jugador 2
-        std::cout << "\n--- Turno de " << jugadores[1].nombre << " ---\n";
-        manejarTurnoJugador(jugadores[1], jugadores[0]); // Pasa al otro jugador como oponente
+        cout << "\n--- Turno de " << jugadores[1].nombre << " ---\n";
+        manejarTurnoJugador(jugadores[1], jugadores[0]);
 
-        // Comprobar si el juego ha terminado después del turno del jugador 2
+
         if (jugadores[0].puntos_total_partida >= jugadores[0].carta_objetivo ||
             jugadores[1].puntos_total_partida >= jugadores[1].carta_objetivo) {
-            std::cout << "\n¡Juego terminado por objetivo alcanzado!\n";
-            break; // Sale del bucle de rondas
+            cout << "\n¡Juego terminado por objetivo alcanzado!\n";
+            break;
         }
 
-        // Aquí podrías añadir una pausa al final de cada ronda
-        std::cout << "\nFin de la Ronda " << ronda_actual << ". Presione Enter para la siguiente ronda...";
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cin.get();
+
+        cout << "\nFin de la Ronda " << ronda_actual << ". Presione Enter para la siguiente ronda...";
+
     }
 
-    // Una vez que el bucle de rondas termina (por max_rondas o por objetivo)
-    std::cout << "\n--- PARTIDA FINALIZADA ---\n";
-    // Aquí deberías llamar a una función para determinar y mostrar el ganador
-    // y las estadísticas finales (ej. mostrarEstadisticasFinales(jugadores);)
+
+    menuResultado(jugadores, ganador, puntoGanador);
+
+    acomodarRanking(ganadores, ganador,puntoGanador);
+    cout << "\n--- PARTIDA FINALIZADA ---\n";
+
 }
 
 
 void accionFixes(Jugador& jugador, int fixes_tirada){
-            if(jugador.bugs_acumulados - fixes_tirada <0){
+
+            if (jugador.bugs_acumulados - fixes_tirada <= 0){
             jugador.bugs_acumulados=0;
+
+           // hito cero bug
+            jugador.llego_a_cero_bugs_alguna_vez=true;
          }else{
            jugador.bugs_acumulados-=fixes_tirada;
          }
@@ -219,27 +351,31 @@ void cuantos_dados_tiras(Jugador& pj, int& eleccion, bool& valido, int& cuantos_
 
    do {
                         system("cls"); // Limpiar para la elección de dados
-                        std::cout << "\n--- " << pj.nombre << "'s Turno ---\n";
-                        std::cout << "PT: " << pj.puntos_tiempo << "\n";
+
+                        cout << "\n--- " << pj.nombre << "'s Turno ---\n";
+                        cout << "PT: " << pj.puntos_tiempo << "\n";
 
                         // verificacion de penalizacion
                         if(pj.bugs_acumulados>2){
-                        std::cout << "Tiene una penalizacion por acumulacion de bug"<<endl;
-                        std::cout << "solo puede elejir lanzar (2) dados: ";
-                        std::cin >> cuantos_dados;
+                        cout << "Tiene una penalizacion por acumulacion de bug"<<endl;
+                        cout << "solo puede elejir lanzar (2) dados: "<<endl;
+                        cin >> cuantos_dados;
+
                            if(cuantos_dados!=2){
                                cout<<"Te avise que solo puedes elejir 2 dados, lo hago por ti."<<endl;
                               cuantos_dados=2;
                            }
                         }else{
 
-                        std::cout << "¿Cuántos dados quieres lanzar? (2 o 3): ";
-                        std::cin >> cuantos_dados;
+
+                        cout << "¿Cuántos dados quieres lanzar? (2 o 3): ";
+                        cin >> cuantos_dados;
                         }
 
-                        if (std::cin.fail() || (cuantos_dados != 2 && cuantos_dados != 3)) {
-                            std::cin.clear(); // Limpiar flags de error
-                            std::cout << "Entrada invalida. Por favor, ingresa 2 o 3.\n";
+                        if (cin.fail() || (cuantos_dados != 2 && cuantos_dados != 3)) {
+                            cin.clear(); // Limpiar flags de error
+                            cout << "Entrada invalida. Por favor, ingresa 2 o 3.\n";
+
                             Sleep(1500);
                         } else {
                             valido = true;
@@ -248,11 +384,11 @@ void cuantos_dados_tiras(Jugador& pj, int& eleccion, bool& valido, int& cuantos_
 
 }
 
+
+
 void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
     int opcion_turno;
     bool turno_finalizado = false;
-    int dados_a_lanzar = 3; // El primer lanzamiento SIEMPRE es con 3 dados
-    bool primer_lanzamiento_del_turno = true; // Flag para controlar el primer lanzamiento
 
     // Reiniciar puntos_ronda_actual y lanzamientos_en_ronda para el turno actual
     jugador_actual.puntos_ronda_actual = 0;
@@ -260,22 +396,26 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
 
     do {
         system("cls");
-        std::cout << "\n--- " << jugador_actual.nombre << "'s Turno ---\n";
-        std::cout << "  PT: " << jugador_actual.puntos_tiempo << " | Bugs: " << jugador_actual.bugs_acumulados;
-        std::cout << " | Puntos Ronda: " << jugador_actual.puntos_ronda_actual << "\n";
-        std::cout << "  Puntos Totales: " << jugador_actual.puntos_total_partida << " | Carta Objetivo: " << jugador_actual.carta_objetivo << "\n\n";
+
+        cout << "\n--- " << jugador_actual.nombre << "'s Turno ---\n";
+        cout << "  PT: " << jugador_actual.puntos_tiempo << " | Bugs: " << jugador_actual.bugs_acumulados;
+        cout << " | Puntos Ronda: " << jugador_actual.puntos_ronda_actual << "\n";
+        cout << "  Puntos Totales: " << jugador_actual.puntos_total_partida << " | Carta Objetivo: " << jugador_actual.carta_objetivo << "\n\n";
 
         // Menú de opciones para el turno
-        std::cout << "1. Lanzar dados\n"; // Esta opción gestionará si son 2 o 3 dados
-        std::cout << "2. Plantarse\n";
-        std::cout << "Elija una opcion: ";
-        std::cin >> opcion_turno;
+        cout << "1. Lanzar dados\n"; // Esta opción gestionará si son 2 o 3 dados
+        cout << "2. Plantarse\n";
+        cout << "Elija una opcion: ";
+        cin >> opcion_turno;
+
 
         switch(opcion_turno) {
             case 1: {
                 if (jugador_actual.puntos_tiempo <= 0) {
-                    std::cout << "\nNo tienes Puntos de Tiempo (PT) disponibles para lanzar.\n";
-                    std::cout << "Debes plantarte.\n";
+
+                    cout << "\nNo tienes Puntos de Tiempo (PT) disponibles para lanzar.\n";
+                    cout << "Debes plantarte.\n";
+
                     system("pause");
                     break; // Vuelve al menú del turno
                 }
@@ -283,9 +423,6 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
                     // Preguntar al jugador cuántos dados quiere lanzar (2 o 3)
                     int eleccion_dados;
                     bool eleccion_valida = false;
-
-                    //prueba de penalizacion eliminar eta linea luego
-                    jugador_actual.bugs_acumulados=6;
 
 
                     cuantos_dados_tiras(jugador_actual, eleccion_dados, eleccion_valida, eleccion_dados);
@@ -295,10 +432,12 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
                 if(eleccion_dados==2){
 
                  jugador_actual.puntos_tiempo-=1;
-                std::cout << "\nHas gastado 1 PT. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
+
+                cout << "\nHas gastado 1 PT. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
                 }else{
                  jugador_actual.puntos_tiempo-=2;
-                 std::cout << "\nHas gastado 2 PT. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
+                 cout << "\nHas gastado 2 PT. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
+
                 }
 
                 system("pause");
@@ -310,7 +449,7 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
 
                 puntos_tirada = lanzarDados(eleccion_dados, bugs_tirada, fixes_tirada);
 
-                // Aplicar reglas de la tirada (bugs y fix)
+                // Aplicando reglas de las tiradas (bugs y fix)
 
                 switch (bugs_tirada){
                case 1:
@@ -381,39 +520,44 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
 
                 if(fixes_tirada ==0 && bugs_tirada==0){
                   jugador_actual.puntos_ronda_actual+=puntos_tirada;
+
                 }
 
                 jugador_actual.lanzamientos_en_ronda++;
 
-                // **Verificación de penalización por BUGS** (revisar reglas exactas del PDF)
-                // Si acumula 3 o más BUGS, se planta automáticamente y pierde puntos de la ronda
-//                if (jugador_actual.bugs_acumulados >= 3) {
-//                    std::cout << "\n¡" << jugador_actual.nombre << " ha acumulado 3 o mas BUGS! Pierde los puntos de esta ronda (" << jugador_actual.puntos_ronda_actual << ").\n";
-//                    jugador_actual.puntos_ronda_actual = 0; // Pierde los puntos de la ronda
-//                    jugador_actual.bugs_acumulados = 0; // Se resetean los bugs (o según regla si se mantienen)
-//                    turno_finalizado = true; // El turno termina forzosamente
-//                    system("pause");
-//                }
+
                 break;
             }
             case 2:
                 // Plantarse: sumar puntos de la ronda al total
                 jugador_actual.puntos_total_partida += jugador_actual.puntos_ronda_actual;
-                std::cout << "\n" << jugador_actual.nombre << " se planta. Puntos de esta ronda: " << jugador_actual.puntos_ronda_actual << ".\n";
+
+                cout << "\n" << jugador_actual.nombre << " se planta. Puntos de esta ronda: " << jugador_actual.puntos_ronda_actual << ".\n";
+
+                  // hito acumulo 20 puntos
+                  if ( jugador_actual.puntos_ronda_actual>=20){
+                    jugador_actual.acumulo_20_puntos_sin_bugs_alguna_vez=true;
+                  }
+
+
                 turno_finalizado = true;
                 system("pause");
                 break;
 
             default:
-                std::cout << "\nOpcion invalida. Intente de nuevo.\n";
+
+                cout << "\nOpcion invalida. Intente de nuevo.\n";
+
                 Sleep(1000);
                 break;
         }
 
           // Si el jugador se queda sin PT y no se ha plantado/forzado el fin de turno
           if (jugador_actual.puntos_tiempo <= 0 && !turno_finalizado) {
-               std::cout << "\n¡" << jugador_actual.nombre << " se ha quedado sin Puntos de Tiempo (PT)!\n";
-               std::cout << "Debes plantarte (opcion 2) para terminar tu turno.\n";
+
+               cout << "\n¡" << jugador_actual.nombre << " se ha quedado sin Puntos de Tiempo (PT)!\n";
+               cout << "Debes plantarte (opcion 2) para terminar tu turno.\n";
+
                // Se forza al jugador a plantarse si no tiene PT
                // O podrías forzar el turno a terminar aquí si las reglas lo indican.
                // Para simplificar, lo dejo que el usuario elija plantarse manualmente.
@@ -422,7 +566,7 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
 
     } while (!turno_finalizado); // El bucle continúa hasta que el turno finalice
 
-    std::cout << "\nTurno de " << jugador_actual.nombre << " finalizado.\n";
+    cout << "\nTurno de " << jugador_actual.nombre << " finalizado.\n";
     Sleep(1000); // Pequeña pausa antes de pasar al siguiente turno/ronda
 }
 
@@ -449,7 +593,6 @@ system("cls");
 
 void menuCreditos(){
   system("cls");
-
   cout<<endl<<endl;
 
   cout<<"   ╔═══════════════════════════════════════════════════════════════════════════════════╗"<<endl;
@@ -459,7 +602,7 @@ void menuCreditos(){
   cout<<"   ║                                                                                   ║"<<endl;
   cout<<"   ║                                                                                   ║"<<endl;
   cout<<"   ║                  ┌──────────┬──────────────────────────────────┐                  ║"<<endl;
-  cout<<"   ║                  │  lEGAJO  │   NOMBRE Y APELLIDO              │                  ║"<<endl;
+  cout<<"   ║                  │  LEGAJO  │   NOMBRE Y APELLIDO              │                  ║"<<endl;
   cout<<"   ║                  ├──────────┼──────────────────────────────────┤                  ║"<<endl;
   cout<<"   ║                  │          │                                  │                  ║"<<endl;
   cout<<"   ║                  │   33063  │  Cristian Sebastian Gonzalez     │                  ║"<<endl;
@@ -478,8 +621,10 @@ void menuCreditos(){
   cout<<"   ╚═══════════════════════════════════════════════════════════════════════════════════╝"<<endl;
 
   cout<<endl;
+
   system("pause");
   system("cls");
+
 }
 
 
@@ -488,6 +633,7 @@ void confirmarSalir(char confirm , int& eleccion){
           if(confirm=='S'){
             return ;
           }else{
+
             eleccion=894;
             return;
             }
@@ -495,6 +641,8 @@ void confirmarSalir(char confirm , int& eleccion){
          // cout<<endl<<" eleccion incorrecta vuelva a intentar"<<endl;
          cartelDeError();
          eleccion=894;
+
+            return;
       }
 
 }
@@ -513,38 +661,58 @@ void cartelDeError(){
 
 }
 
-
-void menuEstadistica(){
-  system("cls");
-cout<<endl<<endl;
-
-  cout<<"                                                                                        "<<endl;
-  cout<<"                                                                                        "<<endl;
-  cout<<"   TREY                                                                                 "<<endl;
-  cout<<"   ------------------------------------------------------------                         "<<endl;
-  cout<<"                                                                                        "<<endl;
-  cout<<"   HITO                                                                                 "<<endl;
-  cout<<"   ------------------------------------------------------------                         "<<endl;
-  cout<<"   Puntos                                                                               "<<endl;
-  cout<<"   BUGS                                                                                 "<<endl;
-  cout<<"   Tiempo                                                                               "<<endl;
-  cout<<"   Menor BUGS                                                                           "<<endl;
-  cout<<"   Llegar a 0 BUGS                                                                      "<<endl;
-  cout<<"   Acumular 20 puntos                                                                   "<<endl;
-  cout<<"   ------------------------------------------------------------                         "<<endl;
-  cout<<"   TOTAL                                                                                "<<endl;
-  cout<<"                                                                                        "<<endl;
-  cout<<"   GANADOR:                                                                             "<<endl;
-  cout<<"                                                                                        "<<endl;
-  cout<<endl<<endl<<endl;
-
-  cout<<"      Copyright (C) TREYANOS Corporation. All rights reserved. "<<endl;
-
-  cout<<endl;
-
-  system("pause");
+void cargaranking(Ranking jugadores[5]){
+   jugadores[0].ganador="ROBERTITO";
+   jugadores[0].puntos= 4;
+   jugadores[1].ganador="PEPE";
+   jugadores[1].puntos= 3;
+   jugadores[2].ganador="RICKY";
+   jugadores[2].puntos= 2;
+   jugadores[3].ganador="MARIA";
+   jugadores[3].puntos= 1;
+   jugadores[4].ganador="JOSE";
+   jugadores[4].puntos= 1;
 
 }
 
+
+void menuEstadistica(const string& ganador, const int& puntoGanador, Ranking ganadores[5]){
+
+
+
+system("cls");
+  cout<<endl<<endl;
+
+  cout<<"   ╔═══════════════════════════════════════════════════════════════════════════╗"<<endl;
+  cout<<"   ║                                                                           ║"<<endl;
+  cout<<left<<setw(20)<< "   ║   Ultimo ganador: "<<setw(13)<<ganador <<"con "<<left<<setw(3)<< puntoGanador <<      "Puntos                              ║"<<endl;
+  cout<<"   ║                                                                           ║"<<endl;
+  cout<<"   ║                                                                           ║"<<endl;
+  cout<<"   ║                                TOP FIVE                                   ║"<<endl;
+  cout<<"   ║                              ------------                                 ║"<<endl;
+  cout<<"   ║                ┌───┬─────────────────┬────────────┐                       ║"<<endl;
+  cout<<"   ║                │pos│     Nombre      │   Puntos   │                       ║"<<endl;
+  cout<<"   ║                ├───┼─────────────────┼────────────┤                       ║"<<endl;
+  cout<<"   ║                │ 1 │    "<<left<<setw(12)<<ganadores[0].ganador <<" │      "<<left<<setw(3)<< ganadores[0].puntos<<"   │                       ║"<<endl;
+  cout<<"   ║                │   │                 │            │                       ║"<<endl;
+  cout<<"   ║                │ 2 │    "<<left<<setw(12)<<ganadores[1].ganador <<" │      "<<left<<setw(3)<< ganadores[1].puntos<<"   │                       ║"<<endl;
+  cout<<"   ║                │   │                 │            │                       ║"<<endl;
+  cout<<"   ║                │ 3 │    "<<left<<setw(12)<<ganadores[2].ganador <<" │      "<<left<<setw(3)<< ganadores[2].puntos<<"   │                       ║"<<endl;
+  cout<<"   ║                │   │                 │            │                       ║"<<endl;
+  cout<<"   ║                │ 4 │    "<<left<<setw(12)<<ganadores[3].ganador <<" │      "<<left<<setw(3)<< ganadores[3].puntos<<"   │                       ║"<<endl;
+  cout<<"   ║                │   │                 │            │                       ║"<<endl;
+  cout<<"   ║                │ 5 │    "<<left<<setw(12)<<ganadores[4].ganador <<" │      "<<left<<setw(3)<< ganadores[4].puntos<<"   │                       ║"<<endl;
+  cout<<"   ║                └───┴─────────────────┴────────────┘                       ║"<<endl;
+  cout<<"   ║                                                                           ║"<<endl;
+  cout<<"   ║                                                                           ║"<<endl;
+  cout<<"   ║        Copyright (C) TREYANOS Corporation. All rights reserved.           ║"<<endl;
+  cout<<"   ╚═══════════════════════════════════════════════════════════════════════════╝"<<endl;
+
+  cout<<endl;
+
+
+system("pause");
+
+}
 
 
