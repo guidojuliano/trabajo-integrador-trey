@@ -268,7 +268,8 @@ void acomodarRanking(Ranking ganadores[5],const string& jp, const int& puntoJp){
 
 
 void iniciarJuego(Jugador jugadores[2], string& ganador, int& puntoGanador, Ranking ganadores[5]) {
-    const int MAX_RONDAS = 2;
+    const int MAX_RONDAS = 10;
+    bool juego_debe_finalizar_al_final_de_ronda = false;
 
     cout << "\n--- INICIO DE LA PARTIDA ---\n";
 
@@ -284,10 +285,12 @@ void iniciarJuego(Jugador jugadores[2], string& ganador, int& puntoGanador, Rank
         manejarTurnoJugador(jugadores[0], jugadores[1]);
 
 
-        if (jugadores[0].puntos_total_partida >= jugadores[0].carta_objetivo ||
-            jugadores[1].puntos_total_partida >= jugadores[1].carta_objetivo) {
-            cout << "\n¡Juego terminado por objetivo alcanzado!\n";
-            break;
+        if (jugadores[0].puntos_total_partida >= jugadores[0].carta_objetivo) {
+            cout << "\n¡" << jugadores[0].nombre << " ha alcanzado o superado su carta objetivo! El juego terminara al final de esta ronda.\n";
+            juego_debe_finalizar_al_final_de_ronda = true;
+        } else if (jugadores[0].puntos_tiempo <= 0) {
+            cout << "\n¡" << jugadores[0].nombre << " se ha quedado sin Puntos de Tiempo (PT)! El juego terminara al final de esta ronda.\n";
+            juego_debe_finalizar_al_final_de_ronda = true;
         }
 
         // Turno del Jugador 2
@@ -295,14 +298,33 @@ void iniciarJuego(Jugador jugadores[2], string& ganador, int& puntoGanador, Rank
         manejarTurnoJugador(jugadores[1], jugadores[0]);
 
 
-        if (jugadores[0].puntos_total_partida >= jugadores[0].carta_objetivo ||
-            jugadores[1].puntos_total_partida >= jugadores[1].carta_objetivo) {
-            cout << "\n¡Juego terminado por objetivo alcanzado!\n";
-            break;
+        if (!juego_debe_finalizar_al_final_de_ronda) { // Solo si no se ha marcado ya para terminar
+            if (jugadores[1].puntos_total_partida >= jugadores[1].carta_objetivo) {
+                cout << "\n¡" << jugadores[1].nombre << " ha alcanzado o superado su carta objetivo! El juego terminara al final de esta ronda.\n";
+                juego_debe_finalizar_al_final_de_ronda = true;
+            } else if (jugadores[1].puntos_tiempo <= 0) {
+                cout << "\n¡" << jugadores[1].nombre << " se ha quedado sin Puntos de Tiempo (PT)! El juego terminara al final de esta ronda.\n";
+                juego_debe_finalizar_al_final_de_ronda = true;
+            }
         }
 
 
-        cout << "\nFin de la Ronda " << ronda_actual << ". Presione Enter para la siguiente ronda...";
+        if (juego_debe_finalizar_al_final_de_ronda) {
+            cout << "\nLa ronda " << ronda_actual << " ha terminado y se ha cumplido una condicion de fin de juego. Finalizando partida...\n";
+            system("pause"); // Pausa para que el usuario vea el mensaje
+            break; // Salir del bucle de rondas
+        }
+
+        // Si no es el fin del juego, preguntar para la siguiente ronda
+        if (ronda_actual < MAX_RONDAS) { // Solo si no es la última ronda por defecto
+            cout << "\nFin de la Ronda " << ronda_actual << ". Presione Enter para la siguiente ronda...";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.get();
+        } else {
+            // Si llegamos aquí y no se activó la bandera, es porque se alcanzó MAX_RONDAS sin otra condición.
+            cout << "\n¡Se han completado todas las " << MAX_RONDAS << " rondas! El juego termina.\n";
+            system("pause");
+        }
 
     }
 
@@ -316,24 +338,28 @@ void iniciarJuego(Jugador jugadores[2], string& ganador, int& puntoGanador, Rank
 
 
 void accionFixes(Jugador& jugador, int fixes_tirada){
+    int aux = jugador.bugs_acumulados;
 
-            if (jugador.bugs_acumulados - fixes_tirada <= 0){
-            jugador.bugs_acumulados=0;
+    if (aux - fixes_tirada <= 0){
+    jugador.bugs_acumulados=0;
 
-           // hito cero bug
-            jugador.llego_a_cero_bugs_alguna_vez=true;
-         }else{
-           jugador.bugs_acumulados-=fixes_tirada;
-         }
+    // hito cero bug
+    if (aux > 0) {
+        jugador.llego_a_cero_bugs_alguna_vez=true;
+    } else {
+       jugador.bugs_acumulados-=fixes_tirada;
+    }
 
-         if (fixes_tirada==1){
-               cout<<"salio 1 fix se resta 1 bug del total acumulado"<<endl;
 
-         }else if( fixes_tirada==2){
-             cout<<"salio 2 fix se resta 2 bug del total acumulado"<<endl;
-         }else if( fixes_tirada==3){
-            cout<<"salio 3 fix se resta 3 bug del total acumulado"<<endl;
-         }
+
+     if (fixes_tirada==1){
+           cout<<"salio 1 fix se resta 1 bug del total acumulado"<<endl;
+
+     }else if( fixes_tirada==2){
+         cout<<"salio 2 fix se resta 2 bug del total acumulado"<<endl;
+     }else if( fixes_tirada==3){
+        cout<<"salio 3 fix se resta 3 bug del total acumulado"<<endl;
+     }
 }
 
 void penalizacion(Jugador& pj, int bugs_tirada){
@@ -350,37 +376,37 @@ void penalizacion(Jugador& pj, int bugs_tirada){
 void cuantos_dados_tiras(Jugador& pj, int& eleccion, bool& valido, int& cuantos_dados ){
 
    do {
-                        system("cls"); // Limpiar para la elección de dados
+        system("cls"); // Limpiar para la elección de dados
 
-                        cout << "\n--- " << pj.nombre << "'s Turno ---\n";
-                        cout << "PT: " << pj.puntos_tiempo << "\n";
+        cout << "\n--- " << pj.nombre << "'s Turno ---\n";
+        cout << "PT: " << pj.puntos_tiempo << "\n";
 
-                        // verificacion de penalizacion
-                        if(pj.bugs_acumulados>2){
-                        cout << "Tiene una penalizacion por acumulacion de bug"<<endl;
-                        cout << "solo puede elejir lanzar (2) dados: "<<endl;
-                        cin >> cuantos_dados;
+        // verificacion de penalizacion
+        if(pj.bugs_acumulados>2){
+        cout << "Tiene una penalizacion por acumulacion de bug"<<endl;
+        cout << "solo puede elejir lanzar (2) dados: "<<endl;
+        cin >> cuantos_dados;
 
-                           if(cuantos_dados!=2){
-                               cout<<"Te avise que solo puedes elejir 2 dados, lo hago por ti."<<endl;
-                              cuantos_dados=2;
-                           }
-                        }else{
+           if(cuantos_dados!=2){
+               cout<<"Te avise que solo puedes elejir 2 dados, lo hago por ti."<<endl;
+              cuantos_dados=2;
+           }
+        }else{
 
 
-                        cout << "¿Cuántos dados quieres lanzar? (2 o 3): ";
-                        cin >> cuantos_dados;
-                        }
+        cout << "¿Cuántos dados quieres lanzar? (2 o 3): ";
+        cin >> cuantos_dados;
+        }
 
-                        if (cin.fail() || (cuantos_dados != 2 && cuantos_dados != 3)) {
-                            cin.clear(); // Limpiar flags de error
-                            cout << "Entrada invalida. Por favor, ingresa 2 o 3.\n";
+        if (cin.fail() || (cuantos_dados != 2 && cuantos_dados != 3)) {
+            cin.clear(); // Limpiar flags de error
+            cout << "Entrada invalida. Por favor, ingresa 2 o 3.\n";
 
-                            Sleep(1500);
-                        } else {
-                            valido = true;
-                        }
-                    } while (!valido);
+            Sleep(1500);
+        } else {
+            valido = true;
+        }
+    } while (!valido);
 
 }
 
@@ -405,6 +431,7 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
         // Menú de opciones para el turno
         cout << "1. Lanzar dados\n"; // Esta opción gestionará si son 2 o 3 dados
         cout << "2. Plantarse\n";
+        cout << "3. Simular Lanzamiento\n";
         cout << "Elija una opcion: ";
         cin >> opcion_turno;
 
@@ -424,9 +451,13 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
                     int eleccion_dados;
                     bool eleccion_valida = false;
 
-
-                    cuantos_dados_tiras(jugador_actual, eleccion_dados, eleccion_valida, eleccion_dados);
-
+                    if (jugador_actual.puntos_tiempo < 2) {
+                        cout << "\nTienes 1 PT. Solo puedes lanzar 2 dados. \n";
+                        eleccion_dados = 2;
+                        eleccion_valida = true;
+                    } else {
+                        cuantos_dados_tiras(jugador_actual, eleccion_dados, eleccion_valida, eleccion_dados);
+                    }
 
                 // Gastar 1 o 2 PT por lanzamiento
                 if(eleccion_dados==2){
@@ -543,6 +574,101 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
                 turno_finalizado = true;
                 system("pause");
                 break;
+            case 3: { //  Simular Lanzamiento
+                system("cls");
+                cout << "\n--- Simular Lanzamiento para " << jugador_actual.nombre << " ---\n";
+                cout << "1. Simular 3 FIXes\n";
+                cout << "2. Simular 3 BUGS\n";
+                cout << "0. Volver al menu del turno\n";
+                cout << "Elija una opcion: ";
+                int opcion_simulacion;
+                cin >> opcion_simulacion;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar buffer
+
+                int puntos_tirada;
+                int bugs_tirada = 0;
+                int fixes_tirada = 0;
+
+                switch (opcion_simulacion) {
+                    case 1:
+                        puntos_tirada = simularLanzamiento3Fixes(bugs_tirada, fixes_tirada);
+                        break;
+                    case 2:
+                        puntos_tirada = simularLanzamiento3Bugs(bugs_tirada, fixes_tirada);
+                        break;
+                    case 0:
+                        continue; // Vuelve al menú principal del turno
+                    default:
+                        cout << "Opcion invalida. Volviendo al menu del turno.\n";
+                        Sleep(1000);
+                        continue; // Vuelve al menú principal del turno
+                }
+
+                if (jugador_actual.puntos_tiempo < 2) {
+                     cout << "\nNo tienes suficientes Puntos de Tiempo (PT) para una simulacion de 3 dados (se requieren 2 PT).\n";
+                     system("pause");
+                     break; // Vuelve al menú del turno
+                }
+                jugador_actual.puntos_tiempo -= 2;
+                cout << "\nHas gastado 2 PT por la simulacion. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
+                system("pause");
+
+                switch (bugs_tirada){
+                    case 1:
+                        cout<<"salio 1 bug perdiste los puntos ganados actuales y tu turno, ademas sumas 1 bug "<<endl;
+                        jugador_actual.bugs_acumulados+=1;
+                        penalizacion( jugador_actual, bugs_tirada);
+                        turno_finalizado = true; // El turno termina
+                        break;
+                    case 2:
+                        cout<<"salio 2 bug perdiste los puntos ganados actuales y tu turno, ademas sumas 2 bug "<<endl<<endl;
+                        jugador_actual.bugs_acumulados+=2;
+                        jugador_actual.puntos_tiempo -=1;
+                        penalizacion(jugador_actual, bugs_tirada);
+                        turno_finalizado = true; // El turno termina
+                        break;
+                    case 3:
+                        cout<<"salio 3 bug perdiste los puntos ganados actuales y tu turno, ademas sumas 3 bug "<<endl;
+                        jugador_actual.bugs_acumulados+=3;
+                        jugador_actual.puntos_tiempo -=2;
+                        penalizacion(jugador_actual, bugs_tirada);
+                        turno_finalizado = true; // El turno termina
+                        break;
+                    default:
+                        break;
+                }
+
+                if (!turno_finalizado) { // Solo si no se terminó el turno por bugs
+                    switch(fixes_tirada){
+                        case 1:
+                            accionFixes(jugador_actual, fixes_tirada);
+                            jugador_actual.puntos_ronda_actual+=puntos_tirada;
+                            system("pause");
+                            break;
+                        case 2:
+                            accionFixes(jugador_actual, fixes_tirada);
+                            cout<<endl<<endl<<"ademas ganas 1 punto de tiempo"<<endl;
+                            jugador_actual.puntos_tiempo+=1;
+                            jugador_actual.puntos_ronda_actual+=puntos_tirada;
+                            system("pause");
+                            break;
+                        case 3:
+                            accionFixes(jugador_actual, fixes_tirada);
+                            cout<<endl<<"ademas ganas 2 punto de tiempo"<<endl;
+                            jugador_actual.puntos_tiempo+=2;
+                            jugador_actual.puntos_ronda_actual+=puntos_tirada;
+                            system("pause");
+                            break;
+                        default:
+                            if(fixes_tirada == 0 && bugs_tirada == 0){
+                                jugador_actual.puntos_ronda_actual+=puntos_tirada;
+                            }
+                            break;
+                    }
+                }
+                jugador_actual.lanzamientos_en_ronda++;
+                break;
+            }
 
             default:
 
@@ -715,4 +841,69 @@ system("pause");
 
 }
 
+int simularLanzamiento(int valor_dado_fijo, int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada) {
+    int puntos_obtenidos_tirada = 0;
+    num_bugs_en_tirada = 0;
+    num_fixes_en_tirada = 0;
 
+    char fila1[500] = "";
+    char fila2[500] = "";
+    char fila3[500] = "";
+    char fila4[500] = "";
+    char fila5[500] = "";
+
+    cout << "\nSimulando lanzamiento de " << cantDados << " dados (valor fijo: " << valor_dado_fijo << ")...\n";
+    Sleep(1000);
+
+    for(int i = 0; i < cantDados; i++) {
+        char lin1[30], lin2[30], lin3[30], lin4[30], lin5[30];
+        int numero_dado = valor_dado_fijo; // Usar el valor fijo
+
+        puntos_obtenidos_tirada += numero_dado;
+
+        switch (numero_dado) {
+            case 1:
+                num_bugs_en_tirada++;
+                break;
+            case 3:
+                num_fixes_en_tirada++;
+                break;
+            default:
+                break;
+        }
+
+        armarDadoRandom(lin1, lin2, lin3, lin4, lin5, numero_dado);
+
+        strcat(fila1, lin1); strcat(fila1, "  ");
+        strcat(fila2, lin2); strcat(fila2, "  ");
+        strcat(fila3, lin3); strcat(fila3, "  ");
+        strcat(fila4, lin4); strcat(fila4, "  ");
+        strcat(fila5, lin5); strcat(fila5, "  ");
+    }
+
+    system("cls");
+
+    cout << "\n\n\n";
+    cout << "  " << fila1 << std::endl;
+    cout << "  " << fila2 << std::endl;
+    cout << "  " << fila3 << std::endl;
+    cout << "  " << fila4 << std::endl;
+    cout << "  " << fila5 << std::endl;
+    cout << std::endl;
+
+    cout << "  Puntos obtenidos: " << puntos_obtenidos_tirada << std::endl;
+    cout << "  Bugs obtenidos:    " << num_bugs_en_tirada << std::endl;
+    cout << "  Fixes obtenidos:   " << num_fixes_en_tirada << std::endl;
+    cout << std::endl << std::endl;
+
+    system("pause");
+    return puntos_obtenidos_tirada;
+}
+
+int simularLanzamiento3Fixes(int& num_bugs_en_tirada, int& num_fixes_en_tirada) {
+    return simularLanzamiento(3, 3, num_bugs_en_tirada, num_fixes_en_tirada); // 3 dados con valor 3 (FIX)
+}
+
+int simularLanzamiento3Bugs(int& num_bugs_en_tirada, int& num_fixes_en_tirada) {
+    return simularLanzamiento(1, 3, num_bugs_en_tirada, num_fixes_en_tirada); // 3 dados con valor 1 (BUG)
+}
