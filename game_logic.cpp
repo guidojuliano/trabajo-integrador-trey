@@ -317,11 +317,15 @@ void iniciarJuego(Jugador jugadores[2], string& ganador, int& puntoGanador, Rank
 
 void accionFixes(Jugador& jugador, int fixes_tirada){
 
-            if (jugador.bugs_acumulados - fixes_tirada <= 0){
+         int aux = jugador.bugs_acumulados;
+
+         if (aux - fixes_tirada <= 0){
             jugador.bugs_acumulados=0;
 
            // hito cero bug
+         if (aux >0){
             jugador.llego_a_cero_bugs_alguna_vez=true;
+            }
          }else{
            jugador.bugs_acumulados-=fixes_tirada;
          }
@@ -403,9 +407,9 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
         cout << "  Puntos Totales: " << jugador_actual.puntos_total_partida << " | Carta Objetivo: " << jugador_actual.carta_objetivo << "\n\n";
 
         // Menú de opciones para el turno
-        cout << "1. Lanzar dados\n"; // Esta opción gestionará si son 2 o 3 dados
-        cout << "2. Plantarse\n";
-        cout << "Elija una opcion: ";
+        cout << " 1. Lanzar dados\n"; // Esta opción gestionará si son 2 o 3 dados
+        cout << " 2. Plantarse\n";
+        cout << " Elija una opcion: ";
         cin >> opcion_turno;
 
 
@@ -413,8 +417,8 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
             case 1: {
                 if (jugador_actual.puntos_tiempo <= 0) {
 
-                    cout << "\nNo tienes Puntos de Tiempo (PT) disponibles para lanzar.\n";
-                    cout << "Debes plantarte.\n";
+                    cout << "\n No tienes Puntos de Tiempo (PT) disponibles para lanzar.\n";
+                    cout << " Debes plantarte.\n";
 
                     system("pause");
                     break; // Vuelve al menú del turno
@@ -422,21 +426,29 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
 
                     // Preguntar al jugador cuántos dados quiere lanzar (2 o 3)
                     int eleccion_dados;
+
                     bool eleccion_valida = false;
 
 
-                    cuantos_dados_tiras(jugador_actual, eleccion_dados, eleccion_valida, eleccion_dados);
+                if (jugador_actual.puntos_tiempo < 2) {
+                  cout << "\nTienes 1 PT. Solo puedes lanzar 2 dados.\n";
+                  eleccion_dados = 2;
+                  eleccion_valida = true;
+                } else {
 
+                  cuantos_dados_tiras(jugador_actual, eleccion_dados, eleccion_valida, eleccion_dados);
+
+                }
 
                 // Gastar 1 o 2 PT por lanzamiento
                 if(eleccion_dados==2){
 
                  jugador_actual.puntos_tiempo-=1;
 
-                cout << "\nHas gastado 1 PT. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
+                cout << "\n Has gastado 1 PT. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
                 }else{
                  jugador_actual.puntos_tiempo-=2;
-                 cout << "\nHas gastado 2 PT. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
+                 cout << "\n Has gastado 2 PT. PT restantes: " << jugador_actual.puntos_tiempo << "\n";
 
                 }
 
