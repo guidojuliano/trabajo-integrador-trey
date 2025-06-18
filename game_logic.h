@@ -23,5 +23,9 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente);
 
 void menuPrincipal();
 
+int simularLanzamiento(int valor_dado_fijo, int cantDados, int& num_bugs_en_tirada, int& num_fixes_en_tirada);
+int simularLanzamiento3Fixes(int& num_bugs_en_tirada, int& num_fixes_en_tirada);
+int simularLanzamiento3Bugs(int& num_bugs_en_tirada, int& num_fixes_en_tirada);
+
 
 #endif // GAME_LOGIC_H
