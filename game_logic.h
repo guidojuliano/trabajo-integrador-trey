@@ -19,7 +19,7 @@ void cargaranking(Ranking jugadores[5]);
 
 void iniciarJuego(Jugador jugadores[2],std::string& ganador, int& puntoGanador,Ranking ganadores[5]);
 
-void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente);
+void manejarTurnoJugador(Jugador& jugador_actual, int ronda_actual);
 
 void menuPrincipal();
 

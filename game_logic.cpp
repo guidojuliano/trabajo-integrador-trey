@@ -278,11 +278,10 @@ void iniciarJuego(Jugador jugadores[2], string& ganador, int& puntoGanador, Rank
     for (int ronda_actual = 1; ronda_actual <= MAX_RONDAS; ronda_actual++) {
         system("cls");
 
-        cout << "\n=============== RONDA " << ronda_actual << " ===============\n";
 
         // Turno del Jugador 1
         cout << "\n--- Turno de " << jugadores[0].nombre << " ---\n";
-        manejarTurnoJugador(jugadores[0], jugadores[1]);
+        manejarTurnoJugador(jugadores[0], ronda_actual);
 
 
         if (jugadores[0].puntos_total_partida >= jugadores[0].carta_objetivo) {
@@ -295,7 +294,7 @@ void iniciarJuego(Jugador jugadores[2], string& ganador, int& puntoGanador, Rank
 
         // Turno del Jugador 2
         cout << "\n--- Turno de " << jugadores[1].nombre << " ---\n";
-        manejarTurnoJugador(jugadores[1], jugadores[0]);
+        manejarTurnoJugador(jugadores[1], ronda_actual);
 
 
         if (!juego_debe_finalizar_al_final_de_ronda) { // Solo si no se ha marcado ya para terminar
@@ -376,7 +375,7 @@ void penalizacion(Jugador& pj, int bugs_tirada){
       }
 }
 
-void cuantos_dados_tiras(Jugador& pj, int& eleccion, bool& valido, int& cuantos_dados ){
+void cuantos_dados_tiras(Jugador& pj, bool& valido, int& cuantos_dados ){
 
    do {
         system("cls"); // Limpiar para la elección de dados
@@ -402,7 +401,7 @@ void cuantos_dados_tiras(Jugador& pj, int& eleccion, bool& valido, int& cuantos_
         }
 
         if (cin.fail() || (cuantos_dados != 2 && cuantos_dados != 3)) {
-            cin.clear(); // Limpiar flags de error
+            cin.clear();
             cout << "Entrada invalida. Por favor, ingresa 2 o 3.\n";
 
             Sleep(1500);
@@ -415,7 +414,7 @@ void cuantos_dados_tiras(Jugador& pj, int& eleccion, bool& valido, int& cuantos_
 
 
 
-void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
+void manejarTurnoJugador(Jugador& jugador_actual, int ronda_actual) {
     int opcion_turno;
     bool turno_finalizado = false;
 
@@ -425,6 +424,7 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
 
     do {
         system("cls");
+         cout << "\n=============== RONDA " << ronda_actual << " ===============\n";
 
         cout << "\n--- " << jugador_actual.nombre << "'s Turno ---\n";
         cout << "  PT: " << jugador_actual.puntos_tiempo << " | Bugs: " << jugador_actual.bugs_acumulados;
@@ -464,7 +464,7 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
                   eleccion_valida = true;
                 } else {
 
-                  cuantos_dados_tiras(jugador_actual, eleccion_dados, eleccion_valida, eleccion_dados);
+                  cuantos_dados_tiras(jugador_actual, eleccion_valida, eleccion_dados);
 
                 }
 
@@ -632,6 +632,7 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
                         break;
                     case 2:
                         cout<<"salio 2 bug perdiste los puntos ganados actuales y tu turno, ademas sumas 2 bug "<<endl<<endl;
+                        cout<<"y perdiste 1 punto de tiempo del total"<<endl<<endl;
                         jugador_actual.bugs_acumulados+=2;
                         jugador_actual.puntos_tiempo -=1;
                         penalizacion(jugador_actual, bugs_tirada);
@@ -639,6 +640,7 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
                         break;
                     case 3:
                         cout<<"salio 3 bug perdiste los puntos ganados actuales y tu turno, ademas sumas 3 bug "<<endl;
+                        cout<<"y perdiste 2 puntos de tiempo del total"<<endl<<endl;
                         jugador_actual.bugs_acumulados+=3;
                         jugador_actual.puntos_tiempo -=2;
                         penalizacion(jugador_actual, bugs_tirada);
@@ -703,7 +705,7 @@ void manejarTurnoJugador(Jugador& jugador_actual, Jugador& jugador_oponente) {
     } while (!turno_finalizado); // El bucle continúa hasta que el turno finalice
 
     cout << "\nTurno de " << jugador_actual.nombre << " finalizado.\n";
-    Sleep(1000); // Pequeña pausa antes de pasar al siguiente turno/ronda
+    Sleep(2000); // Pequeña pausa antes de pasar al siguiente turno/ronda
 }
 
 
